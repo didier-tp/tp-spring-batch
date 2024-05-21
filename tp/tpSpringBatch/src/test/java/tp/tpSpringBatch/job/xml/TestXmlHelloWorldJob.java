@@ -1,4 +1,4 @@
-package tp.tpSpringBatch.job;
+package tp.tpSpringBatch.job.xml;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,26 +14,25 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ActiveProfiles;
-
-import tp.tpSpringBatch.job.java.HelloWorldJobConfig;
-import tp.tpSpringBatch.tasklet.bean.PrintHelloWorldMessageTaskletBean;
 
 
 @Configuration
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
-@Import({HelloWorldJobConfig.class ,
-		PrintHelloWorldMessageTaskletBean.class})
-class HelloWorldJobTestConfig{
+@Import({})
+@ImportResource({"classpath:job/commonConfig.xml",
+				"classpath:job/myHelloWorldJob.xml"})
+class HelloWorldJobXmlTestConfig{
 	
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { HelloWorldJobTestConfig.class } )
-@ActiveProfiles(profiles = {})
-public class TestHelloWorldJob {
+@SpringBootTest(classes = { HelloWorldJobXmlTestConfig.class } )
+@ActiveProfiles(profiles = {"xmlJobConfig"})
+public class TestXmlHelloWorldJob {
 	
-	Logger logger = LoggerFactory.getLogger(TestHelloWorldJob.class);
+	Logger logger = LoggerFactory.getLogger(TestXmlHelloWorldJob.class);
 	
 	@Autowired
 	private JobLauncherTestUtils jobLauncherTestUtils;

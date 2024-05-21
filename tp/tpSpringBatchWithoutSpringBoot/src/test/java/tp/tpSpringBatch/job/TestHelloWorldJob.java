@@ -10,26 +10,26 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import tp.tpSpringBatch.config.JobRepositoryBatchConfig;
 import tp.tpSpringBatch.job.java.HelloWorldJobConfig;
 import tp.tpSpringBatch.tasklet.bean.PrintHelloWorldMessageTaskletBean;
 
 
 @Configuration
-@EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
-@Import({HelloWorldJobConfig.class ,
+@Import({JobRepositoryBatchConfig.class,
+	    HelloWorldJobConfig.class ,
 		PrintHelloWorldMessageTaskletBean.class})
 class HelloWorldJobTestConfig{
 	
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { HelloWorldJobTestConfig.class } )
+@SpringJUnitConfig({ HelloWorldJobTestConfig.class } )
 @ActiveProfiles(profiles = {})
 public class TestHelloWorldJob {
 	
