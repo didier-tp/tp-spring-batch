@@ -13,8 +13,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 
 
@@ -87,6 +90,19 @@ public class JobRepositoryBatchConfig {
 	     return jobLauncher;
 	  }
 	  
-  
+      //SEULEMENT POUR VERSION SANS SPRING-BOOT:
+	  
+	  //@Bean @Qualifier("batch")
+	  public DataSourceInitializer databasePopulator(
+			  @Qualifier("jobRepositoryDb") DataSource  batchDataSource) {
+	    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+	    //populator.addScript(new ClassPathResource("org/springframework/batch/core/schema-drop-h2.sql"));
+	    populator.addScript(new ClassPathResource("org/springframework/batch/core/schema-h2.sql"));
+	    populator.setContinueOnError(false);    populator.setIgnoreFailedDrops(false);
+	    DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+	    dataSourceInitializer.setDataSource(batchDataSource);
+	    dataSourceInitializer.setDatabasePopulator(populator);
+	    return dataSourceInitializer;
+	  }
   
 }

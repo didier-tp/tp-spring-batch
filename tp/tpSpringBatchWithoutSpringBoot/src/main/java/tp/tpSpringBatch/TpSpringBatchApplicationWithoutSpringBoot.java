@@ -23,6 +23,14 @@ public class TpSpringBatchApplicationWithoutSpringBoot {
 	    this.jobLauncher = jobLauncher;
 	    this.applicationContext = applicationContext;
 	}
+	
+	/*
+	 NB: sans automatisme springBoot/spring.batch.initialize-schema=always
+	 il faut SEULEMENT au PREMIER LANCEMENT décommenter  //@Bean @Qualifier("batch")
+	 au dessus de
+	  public DataSourceInitializer databasePopulator ...
+	  dans tp.tpSpringBatch.config.JobRepositoryBatchConfig
+	 */
 
 	public static void main(String[] args) throws Exception {
 		//String defaultProfils  = "xmlJobConfig";
