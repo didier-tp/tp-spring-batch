@@ -9,21 +9,25 @@ import org.springframework.test.context.ActiveProfiles;
 
 import tp.tpSpringBatch.AbstractBasicActiveTestJob;
 import tp.tpSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
-import tp.tpSpringBatch.job.java.HelloWorldJobConfig;
-import tp.tpSpringBatch.tasklet.bean.PrintHelloWorldMessageTaskletBean;
+import tp.tpSpringBatch.job.java.ProductsCsvToConsoleJobConfig;
+import tp.tpSpringBatch.processor.SimpleUppercaseProductProcessor;
+import tp.tpSpringBatch.reader.java.MyCsvFileProductReaderConfig;
+import tp.tpSpringBatch.writer.java.MyConsoleProductWriterConfig;
 
 
 @Configuration
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class,
-	     HelloWorldJobConfig.class ,
-		PrintHelloWorldMessageTaskletBean.class})
-class HelloWorldJobTestConfig{
-	
+	ProductsCsvToConsoleJobConfig.class ,
+	MyCsvFileProductReaderConfig.class,
+	MyConsoleProductWriterConfig.class,
+	SimpleUppercaseProductProcessor.class
+	})
+class FromCsvToConsoleTestConfig{
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { HelloWorldJobTestConfig.class } )
+@SpringBootTest(classes = { FromCsvToConsoleTestConfig.class } )
 @ActiveProfiles(profiles = {})
-public class TestHelloWorldJob extends AbstractBasicActiveTestJob{
+public class TestFromCsvToConsoleJob extends AbstractBasicActiveTestJob {	
 }
