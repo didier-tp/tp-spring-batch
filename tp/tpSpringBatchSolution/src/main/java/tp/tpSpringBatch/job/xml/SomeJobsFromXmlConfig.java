@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 @ImportResource({"classpath:job/globalCommonConfig.xml",
 	             "classpath:job/myHelloWorldJob.xml",
 	             "classpath:job/fromCsvToConsoleJob.xml",
-	             "classpath:job/fromCsvToJsonJob.xml"})
+	             "classpath:job/fromCsvToJsonJob.xml",
+	             "classpath:job/fromCsvToXmlJob.xml"})
 public class SomeJobsFromXmlConfig {
 }

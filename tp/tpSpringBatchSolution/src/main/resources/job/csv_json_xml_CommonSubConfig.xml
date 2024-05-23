@@ -11,5 +11,8 @@
    <import resource="classpath:job/rw/consoleWriter.xml" />
    <import resource="classpath:job/rw/jsonWriter.xml" />
    
+   <import resource="classpath:job/rw/xmlMarshaller.xml" />
+   <import resource="classpath:job/rw/xmlWriter.xml" />
+   
  
  </beans>

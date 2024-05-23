@@ -25,8 +25,8 @@ public class TpSpringBatchApplication  implements CommandLineRunner{
 	}
 
 	public static void main(String[] args) {
-		String defaultProfils  = "xmlJobConfig";
-		//String defaultProfils  = "";
+		//String defaultProfils  = "xmlJobConfig";
+		String defaultProfils  = "";
 		System.setProperty("spring.profiles.default", defaultProfils);
 		SpringApplication.run(TpSpringBatchApplication.class, args);
 	}
@@ -35,7 +35,8 @@ public class TpSpringBatchApplication  implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		 //String jobName="myHelloWorldJob";
 		//String jobName="fromCsvToConsoleJob";
-		String jobName="fromCsvToJsonJob";
+		//String jobName="fromCsvToJsonJob";
+		String jobName="fromCsvToXmlJob";
 		
 		 Job job = (Job) applicationContext.getBean(jobName);
 	 
