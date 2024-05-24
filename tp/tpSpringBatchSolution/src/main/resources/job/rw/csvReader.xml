@@ -16,8 +16,9 @@
  -->  
     
  <bean id = "productCsvFileReader" 
-      class = "org.springframework.batch.item.file.FlatFileItemReader">  
-      <property name = "resource" value = "file:data/input/csv/products.csv" /> 
+      class = "org.springframework.batch.item.file.FlatFileItemReader" scope="step">  
+     <!--  <property name = "resource" value = "file:data/input/csv/products.csv" /> --> 
+      <property name="resource" value="file:#{jobParameters['inputFilePath']}" />
       <!--  <property name = "resource" ref = "inputDataCsvResource" /> -->
       <property name = "linesToSkip" value = "1" /> 
       <property name = "lineMapper"> 

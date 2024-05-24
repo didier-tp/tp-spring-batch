@@ -14,9 +14,10 @@
  -->
 
 
-<bean id="productXmlFileItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
+<bean id="productXmlFileItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter" scope="step" >
     <!--  <property name="resource" ref="xmlOutputResource" />  -->
-    <property name="resource" value="file:data/output/xml/products.xml" />
+    <!--  <property name="resource" value="file:data/output/xml/products.xml" />  -->
+    <property name="resource" value="file:#{jobParameters['outputFilePath']}" />
     <!-- <property name="marshaller" ref="personXmlJaxb2Marshaller" /> -->
     <property name="marshaller" ref="productXmlXstreamMarshaller" />
     <property name="rootTagName" value="products" />

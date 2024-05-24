@@ -7,8 +7,8 @@
 	https://www.springframework.org/schema/beans/spring-beans.xsd">
                                 
    
-	<import resource="classpath:job/listenersCommonsubConfig.xml" />
-    <import resource="classpath:job/csv_json_xml_CommonsubConfig.xml" />
+	<import resource="classpath:job/listenersCommonSubConfig.xml" />
+    <import resource="classpath:job/csv_json_xml_CommonSubConfig.xml" />
 
  
  </beans>

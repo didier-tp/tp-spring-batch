@@ -34,9 +34,12 @@ public class TestFromCsvToXmlJob extends AbstractBasicActiveTestJob {
 
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
-		return jobParametersBuilder;
-		//.addString("msg1", "_my_msg1_value_")//used by PrintJobParamMessageTaskletBean and some Reader/Writer
-        //.addString("enableUpperCase", "true");//used by SimpleUppercasePersonProcessor
+		return jobParametersBuilder
+		.addString("inputFilePath", "data/input/csv/products.csv")//used by some Reader/Writer
+		.addString("outputFilePath", "data/output/xml/products.xml")//used by some Reader/Writer
+        .addString("enableUpperCase", "true");//used by SimpleUppercaseProductProcessor
+		//.addString("enableUpperCase", "false");//used by SimpleUppercaseProductProcessor
+		
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 import tp.tpSpringBatch.model.Product;
@@ -22,17 +23,17 @@ public class MyCsvFileProductReaderConfig {
 	
 	public static final Logger logger = LoggerFactory.getLogger(MyCsvFileProductReaderConfig.class);
 	
-	@Value("file:data/input/csv/products.csv") //to read in project root directory
-	  //NB: by default @Value(path) is @Value("classpath:path) //to read in src/main/resource or other classpath part
-	  private Resource inputCsvResource;
+	//@Value("file:data/input/csv/products.csv") //to read in project root directory
+	 // private Resource inputCsvResource;
 
 	
 	//with FlatFileItemReaderBuilder
 	  @Bean @Qualifier("csv")
 	  @JobScope
 	  public FlatFileItemReader<Product> productCsvFileReader(
-				
+			  @Value("#{jobParameters['inputFilePath']}") String inputFilePath
 			  ) {
+		Resource inputCsvResource = new FileSystemResource(inputFilePath);
 		return new FlatFileItemReaderBuilder<Product>()
 				.name("productCsvFileReader")
 				.resource(inputCsvResource)
