@@ -18,9 +18,9 @@ public class MyDbProductWithDetailsReaderConfig {
 	private static final String SELECT_QUERY = "SELECT id,main_category,sub_category,label,price,time_stamp,f_color,f_weight,f_size,f_description FROM product_with_details"	;
 	
 	 @Bean @Qualifier("db")
-	  ItemReader<ProductWithDetails> jdbcProductReader(@Qualifier("productdb") DataSource productdbDataSource) {
+	  ItemReader<ProductWithDetails> jdbcProductWithDetailsReader(@Qualifier("productdb") DataSource productdbDataSource) {
 			 return new JdbcCursorItemReaderBuilder<ProductWithDetails>()
-			  .name("jdbcPersonReader")
+			  .name("jdbcProductWithDetailsReader")
 			  .dataSource(productdbDataSource)
 			  .sql(SELECT_QUERY)
 			  .rowMapper(new ProductWithDetailsRowMapper())
