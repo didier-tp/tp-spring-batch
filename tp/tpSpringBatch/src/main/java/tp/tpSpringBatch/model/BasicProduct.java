@@ -1,14 +1,7 @@
 package tp.tpSpringBatch.model;
 
 //import jakarta.xml.bind.annotation.XmlRootElement;
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
 
-
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
 //@XmlRootElement(name = "product")
 public class BasicProduct {
 	private Integer id;
@@ -65,5 +58,6 @@ public class BasicProduct {
 	public void setTime_stamp(String time_stamp) {
 		this.time_stamp = time_stamp;
 	}
+	
 	
 }
