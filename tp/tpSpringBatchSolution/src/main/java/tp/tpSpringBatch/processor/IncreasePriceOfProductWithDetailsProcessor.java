@@ -22,6 +22,9 @@ public class IncreasePriceOfProductWithDetailsProcessor implements ItemProcessor
 	@Value("#{jobParameters['increaseRatePct']}") 
 	private Double increaseRatePct =0.0;//taux d'augmentation en %
 	
+	@Value("#{jobParameters['slowProcessorDelay']}") 
+	private Long slowProcessorDelay =null;//nb ms de pause (simulation traitement long)
+	
 	@Value("#{jobParameters['productCategoryToIncrease']}") 
 	private String productCategoryToIncrease ="?";//ex: "aliment" ou "vetement" ou ...
 
@@ -38,7 +41,13 @@ public class IncreasePriceOfProductWithDetailsProcessor implements ItemProcessor
 
 	@Override
 	public ProductWithDetails process(ProductWithDetails p) throws Exception {
-		if(p.getMain_category()!=null && p.getMain_category().equals(productCategoryToIncrease)) {
+		
+		if(slowProcessorDelay!=null) {
+			Thread.currentThread().sleep(slowProcessorDelay); //simulation traitement long
+		}
+		
+		if( ( p.getMain_category()!=null && p.getMain_category().equals(productCategoryToIncrease) )
+				|| productCategoryToIncrease.equals("all")) {
 			Double newPrice  = p.getPrice() * (1 + increaseRatePct/100.0);
 			String newTimeStamp = LocalDateTime.now().toString();
 			incrementNumberOfAjustedProducts();

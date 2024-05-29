@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	https://www.springframework.org/schema/batch/spring-batch.xsd
+	http://www.springframework.org/schema/beans 
+	https://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	https://www.springframework.org/schema/util/spring-util.xsd">
+	
+<bean id="outputDataCsvResource" class="tp.tpSpringBatch.job.xml.MyWritableResourceFactoryBean"  >
+    <property name="path" value="data/output/csv/productStats.csv" />
+ </bean>
+	
+<bean id="csvProductStatHeaderCallback" class="tp.mySpringBatch.writer.helper.MyFlatFileHeaderCallback"  >
+    <property name="headerString" value="category;number_of_products;min_price;max_price;avg_price" />
+ </bean>
+	
+<bean id="csvFileProductStatWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+   <!--  <property name="resource" value="file:data/output/csv/productStats.csv" /> -->
+      <property name = "resource" ref = "outputDataCsvResource" /> 
+    <property name="appendAllowed" value="false" />
+    <property name="lineAggregator">
+        <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+             <property name = "delimiter" value = ";" />
+             <property name="fieldExtractor">
+                   <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                          <property name = "names"  value="category,number_of_products,min_price,max_price,avg_price" />		                    
+                    </bean>
+             </property>
+        </bean>
+    </property>
+    <property name="headerCallback" ref="csvPersonHeaderCallback" />
+</bean>
+    
+ <!-- NB: a utiliser et tester ... -->
+   
+ </beans>

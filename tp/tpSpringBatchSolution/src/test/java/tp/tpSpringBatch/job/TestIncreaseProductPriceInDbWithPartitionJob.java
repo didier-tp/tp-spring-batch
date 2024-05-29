@@ -11,10 +11,10 @@ import org.springframework.test.context.ActiveProfiles;
 import tp.tpSpringBatch.AbstractBasicActiveTestJob;
 import tp.tpSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
 import tp.tpSpringBatch.datasource.MyProductDbDataSourceConfig;
-import tp.tpSpringBatch.job.java.IncreaseProductPriceInDbJobConfig;
+import tp.tpSpringBatch.job.java.IncreaseProductPriceInDbWithPartitionJobConfig;
 import tp.tpSpringBatch.processor.IncreasePriceOfProductWithDetailsProcessor;
 import tp.tpSpringBatch.reader.java.MyDbProductStatReaderConfig;
-import tp.tpSpringBatch.reader.java.MyDbProductWithDetailsReaderConfig;
+import tp.tpSpringBatch.reader.java.MyDbProductWithDetailsReaderWithPartitionConfig;
 import tp.tpSpringBatch.step.java.ProductStatDbToCsvStepConfig;
 import tp.tpSpringBatch.writer.java.MyConsoleProductStatWriterConfig;
 import tp.tpSpringBatch.writer.java.MyConsoleProductWithDetailsWriterConfig;
@@ -27,8 +27,8 @@ import tp.tpSpringBatch.writer.java.MyDbProductWithDetailsWriterConfig;
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class,
 	MyProductDbDataSourceConfig.class,
 	ProductStatDbToCsvStepConfig.class,
-	IncreaseProductPriceInDbJobConfig.class ,
-	MyDbProductWithDetailsReaderConfig.class,
+	IncreaseProductPriceInDbWithPartitionJobConfig.class ,
+	MyDbProductWithDetailsReaderWithPartitionConfig.class,
 	MyConsoleProductWithDetailsWriterConfig.class,
 	MyDbProductWithDetailsWriterConfig.class,
 	IncreasePriceOfProductWithDetailsProcessor.class,
@@ -36,23 +36,22 @@ import tp.tpSpringBatch.writer.java.MyDbProductWithDetailsWriterConfig;
 	MyDbProductStatReaderConfig.class,
 	MyCsvFileProductStatWriterConfig.class
 	})
-class IncreaseProductPriceInDbTestConfig{
+class IncreaseProductPriceInDbWithPartitionTestConfig{
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { IncreaseProductPriceInDbTestConfig.class } )
+@SpringBootTest(classes = { IncreaseProductPriceInDbWithPartitionTestConfig.class } )
 @ActiveProfiles(profiles = {})
-public class TestIncreaseProductPriceInDbJob extends AbstractBasicActiveTestJob {	
+public class TestIncreaseProductPriceInDbWithPartitionJob extends AbstractBasicActiveTestJob {	
 	
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
         .addDouble("increaseRatePct", 1.0)//used by IncreasePriceOfProductWithDetailsProcessor (1% d'augmentation)
-		.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
-		.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
-		.addLong("minManyUpdated",2L);//used by MyUpdatedCountCheckingDecider
-        
-	}
+        .addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
+		.addString("productCategoryToIncrease", "all");//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
+		//4.5s
+	}  
 	
-	//4.5s , 4.5s sans partition avec 16 enregistrements et pause de 200ms
+	//2,3s avec partition avec 16 enregistrements et pause de 200ms
 }

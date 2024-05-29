@@ -11,36 +11,37 @@ import org.springframework.test.context.ActiveProfiles;
 import tp.tpSpringBatch.AbstractBasicActiveTestJob;
 import tp.tpSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
 import tp.tpSpringBatch.datasource.MyProductDbDataSourceConfig;
-import tp.tpSpringBatch.job.java.ProductStatDbToCsvJobConfig;
-import tp.tpSpringBatch.reader.java.MyDbProductStatReaderConfig;
+import tp.tpSpringBatch.job.java.DataSetGeneratorJobConfig;
+import tp.tpSpringBatch.reader.java.MyCustomProductWithDetailsGeneratorReaderConfig;
 import tp.tpSpringBatch.step.java.ProductStatDbToCsvStepConfig;
 import tp.tpSpringBatch.writer.java.MyConsoleProductStatWriterConfig;
 import tp.tpSpringBatch.writer.java.MyCsvFileProductStatWriterConfig;
+import tp.tpSpringBatch.writer.java.MyDbProductWithDetailsWriterConfig;
 
 
 @Configuration
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class,
 	MyProductDbDataSourceConfig.class,
-	ProductStatDbToCsvStepConfig.class,
-	ProductStatDbToCsvJobConfig.class ,
-	MyConsoleProductStatWriterConfig.class ,
-	MyDbProductStatReaderConfig.class,
-	MyCsvFileProductStatWriterConfig.class
+	DataSetGeneratorJobConfig.class ,
+	MyCustomProductWithDetailsGeneratorReaderConfig.class,
+	MyDbProductWithDetailsWriterConfig.class
 	})
-class FromProductStatDbToCsvTestConfig{
+class DataSetGeneratorTestConfig{
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { FromProductStatDbToCsvTestConfig.class } )
+@SpringBootTest(classes = { DataSetGeneratorTestConfig.class } )
 @ActiveProfiles(profiles = {})
-public class TestFromProductStatDbToCsvJob extends AbstractBasicActiveTestJob {
+public class TestDataSetGeneratorJob extends AbstractBasicActiveTestJob {
 
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
-		.addString("outputFilePath", "data/output/csv/productStats.csv");//used by some Reader/Writer in a future version
-		
+		.addLong("dataSetSize", 10000L);
+		//4.5 s avec commitInterval = 1 dans generateDbDataSetJob
+		//2.7 s avec commitInterval = 10 dans generateDbDataSetJob
+		//1.9 s avec commitInterval = 100 dans generateDbDataSetJob
 	}
 	
 	
