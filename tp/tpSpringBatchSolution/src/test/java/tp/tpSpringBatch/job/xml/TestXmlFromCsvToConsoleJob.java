@@ -1,5 +1,6 @@
 package tp.tpSpringBatch.job.xml;
 
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,12 @@ class FromCsvToConsoleXmlTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromCsvToConsoleXmlTestConfig.class } )
-@ActiveProfiles(profiles = {})
-public class TestXmlFromCsvToConsoleJob extends AbstractBasicActiveTestJob {	
+@ActiveProfiles(profiles = { "xmlJobConfig"})
+public class TestXmlFromCsvToConsoleJob extends AbstractBasicActiveTestJob {
+	
+	@Override
+	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
+		return jobParametersBuilder
+				.addString("inputFilePath", "data/input/csv/products.csv");//used by productCsvFileReader
+	}
 }

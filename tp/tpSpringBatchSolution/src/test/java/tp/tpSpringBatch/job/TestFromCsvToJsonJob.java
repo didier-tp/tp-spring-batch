@@ -34,9 +34,8 @@ public class TestFromCsvToJsonJob extends AbstractBasicActiveTestJob {
 
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
-		return jobParametersBuilder;
-		//.addString("msg1", "_my_msg1_value_")//used by PrintJobParamMessageTaskletBean and some Reader/Writer
-        //.addString("enableUpperCase", "true");//used by SimpleUppercasePersonProcessor
+		return jobParametersBuilder
+		.addString("inputFilePath", "data/input/csv/products.csv");//used by productCsvFileReader
 	}
 	
 	@Override

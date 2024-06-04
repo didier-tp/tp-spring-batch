@@ -14,7 +14,7 @@
     <property name="path" value="data/output/csv/productStats.csv" />
  </bean>
 	
-<bean id="csvProductStatHeaderCallback" class="tp.mySpringBatch.writer.helper.MyFlatFileHeaderCallback"  >
+<bean id="csvProductStatHeaderCallback" class="tp.tpSpringBatch.writer.helper.MyFlatFileHeaderCallback"  >
     <property name="headerString" value="category;number_of_products;min_price;max_price;avg_price" />
  </bean>
 	
@@ -32,7 +32,7 @@
              </property>
         </bean>
     </property>
-    <property name="headerCallback" ref="csvPersonHeaderCallback" />
+    <property name="headerCallback" ref="csvProductStatHeaderCallback" />
 </bean>
     
  <!-- NB: a utiliser et tester ... -->

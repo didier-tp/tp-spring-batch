@@ -13,7 +13,7 @@
  productJsonFileItemWriter is in jsonWriter (imported by globalCommonConfig.xml)
   -->                     
  <!-- 
-    processor="simpleUppercasePersonProcessor" in <chunk ... />
+    processor="simpleUppercaseProductProcessor" in <chunk ... />
   -->
    
 <job id="fromCsvToJsonJob" xmlns="http://www.springframework.org/schema/batch">  
@@ -21,7 +21,7 @@
 	 <step  id="step1_of_fromCsvToJsonJob"  >  
 	     <tasklet>
     		<chunk reader="productCsvFileReader" writer="productJsonFileItemWriter"
-    		    
+    		    processor="simpleUppercaseProductProcessor"
         		commit-interval="1" />		        
    	 	</tasklet>
 	 </step>

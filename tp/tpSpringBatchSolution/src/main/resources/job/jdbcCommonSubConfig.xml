@@ -5,15 +5,11 @@
 	https://www.springframework.org/schema/batch/spring-batch.xsd
 	http://www.springframework.org/schema/beans 
 	https://www.springframework.org/schema/beans/spring-beans.xsd">
- 
-   <import resource="classpath:job/rw/csvReader.xml" />
-   <import resource="classpath:job/rw/csvWriter.xml" />
+                                
+   <!--  <alias name="batchTransactionManager" alias="transactionManager" /> -->
+
+   
+   <import resource="classpath:job/rw/jdbcReader.xml" />
+   <import resource="classpath:job/rw/jdbcWriter.xml" /> 
   
-   <import resource="classpath:job/rw/consoleWriter.xml" />
-   <import resource="classpath:job/rw/jsonWriter.xml" />
-   
-   <import resource="classpath:job/rw/xmlMarshaller.xml" />
-   <import resource="classpath:job/rw/xmlWriter.xml" />
-   
- 
  </beans>

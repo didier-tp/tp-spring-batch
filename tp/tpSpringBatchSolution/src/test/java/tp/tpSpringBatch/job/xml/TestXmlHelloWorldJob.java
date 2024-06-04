@@ -15,7 +15,7 @@ import tp.tpSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
 @Configuration
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class})
-@ImportResource({"classpath:job/commonConfig.xml",
+@ImportResource({"classpath:job/globalCommonConfig.xml",
 				"classpath:job/myHelloWorldJob.xml"})
 class HelloWorldJobXmlTestConfig{
 	

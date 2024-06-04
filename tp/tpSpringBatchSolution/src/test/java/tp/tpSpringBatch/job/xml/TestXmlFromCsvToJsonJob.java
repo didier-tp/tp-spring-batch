@@ -21,7 +21,7 @@ import tp.tpSpringBatch.writer.java.MyJsonFileProductWriterConfig;
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class
 	})
-@ComponentScan(basePackages = "tp.mySpringBatch.processor")
+@ComponentScan(basePackages = "tp.tpSpringBatch.processor")
 @ImportResource({"classpath:job/listenersCommonSubConfig.xml",
 				"classpath:job/csv_json_xml_CommonSubConfig.xml",
 				"classpath:job/fromCsvToJsonJob.xml"})
@@ -30,14 +30,13 @@ class FromCsvToJsonXmlTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromCsvToJsonXmlTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"xmlJobConfig"})
 public class TestXmlFromCsvToJsonJob extends AbstractBasicActiveTestJob {
 
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
-		return jobParametersBuilder;
-		//.addString("msg1", "_my_msg1_value_")//used by PrintJobParamMessageTaskletBean and some Reader/Writer
-        //.addString("enableUpperCase", "true");//used by SimpleUppercasePersonProcessor
+		return jobParametersBuilder
+				.addString("inputFilePath", "data/input/csv/products.csv");//used by productCsvFileReader
 	}
 	
 	@Override

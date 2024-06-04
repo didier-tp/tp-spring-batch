@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	https://www.springframework.org/schema/batch/spring-batch.xsd
+	http://www.springframework.org/schema/beans 
+	https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  
+    <bean id="myPartitioner" class="tp.tpSpringBatch.partitionner.NumericColumnRangePartitioner" >
+       <property name="table" value="product_with_details" /> 
+       <property name="column" value="id" /> 
+       <property name="dataSource" ref="productdbDataSource" /> 
+   </bean> 
+   
+    
+   <bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />                            
+  
+  
+   
+   <!-- partitioner job -->
+  <job id="increaseProductPriceInDbWithPartitionJob" xmlns="http://www.springframework.org/schema/batch">
+	    
+    <!-- master/manager step, 4 threads (grid-size)  -->
+    <step id="dbToDbWithPriceIncreasePartitionManagerStep">
+	<partition step="stepDbToDbWithPriceIncreaseWorker" partitioner="myPartitioner">
+		<handler grid-size="4" task-executor="taskExecutor" />
+	</partition>
+    </step>
+		
+  </job>
+
+  <!-- each thread will run this job, with different stepExecutionContext values. -->
+  <step id="stepDbToDbWithPriceIncreaseWorker" xmlns="http://www.springframework.org/schema/batch">
+	<tasklet>
+        <chunk reader="jdbcProductWithDetailsReaderWithPartition" 
+    		       processor="increasePriceOfProductWithDetailsProcessor"
+    		       writer="updatePriceOfProductWithDetailsJdbcItemWriter"
+        		commit-interval="1" />        		
+	</tasklet>
+  </step>
+  
+ 
+ 
+ </beans>

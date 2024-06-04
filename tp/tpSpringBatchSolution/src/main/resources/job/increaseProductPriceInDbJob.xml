@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	https://www.springframework.org/schema/batch/spring-batch.xsd
+	http://www.springframework.org/schema/beans 
+	https://www.springframework.org/schema/beans/spring-beans.xsd">
+                                
+ <!--  increasePriceOfProductWithDetailsProcessor from java config 
+          writer="productConsoleItemWriter" dans pré-version 
+          writer="updatePriceOfProductWithDetailsJdbcItemWriter" dans seconde version 
+  -->
+  
+   <bean id="printMessageFewProducts" class="tp.tpSpringBatch.tasklet.PrintMessageTasklet">
+      <property name="message" value=">>>> few updated products"/>
+  </bean>
+  
+  <bean id="printMessageManyProducts" class="tp.tpSpringBatch.tasklet.PrintMessageTasklet">
+      <property name="message" value=">>>> MANY updated products"/>
+  </bean>  
+  
+   
+ <bean id="myUpdatedCountCheckingDecider" class="tp.tpSpringBatch.decider.MyUpdatedCountCheckingDecider" />
+   
+<job id="increaseProductPriceInDbJob" xmlns="http://www.springframework.org/schema/batch">  
+     
+	 <step  id="step1_of_increaseProductPriceInDbJob"  
+	        next="myUpdatedCountCheckingDecision">  
+	     <tasklet>
+    		<chunk reader="jdbcProductWithDetailsReader" 
+    		       processor="increasePriceOfProductWithDetailsProcessor"
+    		       writer="updatePriceOfProductWithDetailsJdbcItemWriter"
+        		commit-interval="1" />
+   	 	</tasklet>
+	 </step>
+	 
+	 <decision id="myUpdatedCountCheckingDecision" decider="myUpdatedCountCheckingDecider">
+	        <next on="COMPLETED_WITH_MANY_UPDATED" to="stepWhenMany" />
+	        <next on="COMPLETED" to="stepWhenFew" />
+	 </decision>
+	 
+	 <step  id="stepWhenFew">
+	       <tasklet   ref="printMessageFewProducts" />
+	 </step>	
+	    
+	  <step  id="stepWhenMany" next="stepDbStatToCsv">
+	       <tasklet   ref="printMessageManyProducts" />
+	   </step>   
+	   
+	    <step  id="stepDbStatToCsv">  
+	     <tasklet>
+    		<chunk reader="jdbcProductStatReader" 
+    		       writer="csvFileProductStatWriter"
+        		commit-interval="1" />
+   	 	</tasklet>
+	 </step>
+	    	    	 
+ </job>
+ 
+ </beans>

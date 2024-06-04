@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	https://www.springframework.org/schema/batch/spring-batch.xsd
+	http://www.springframework.org/schema/beans 
+	https://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	https://www.springframework.org/schema/util/spring-util.xsd">
+    
+<!-- 
+NB: la table product_with_details doit exister 
+le productdbDataSource provient actuellement de la configuration java
+ -->
+
+<bean id="jdbcProductWithDetailsReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+    <property name="dataSource" ref="productdbDataSource" /> <!-- from java config -->
+    <property name="sql" value="SELECT id,main_category,sub_category,label,price,time_stamp,f_color,f_weight,f_size,f_description FROM product_with_details" />
+    <property name="rowMapper" >
+       <bean class="tp.tpSpringBatch.db.ProductWithDetailsRowMapper">
+       </bean>
+    </property>
+</bean>  
+
+<bean id="jdbcProductStatReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+    <property name="dataSource" ref="productdbDataSource" /> <!-- from java config -->
+    <property name="sql" value="SELECT main_category as category , count(*) as nb_prod , min(price) as min_price , max(price) as max_price , avg(price) as avg_price FROM PRODUCT_WITH_DETAILS GROUP BY main_category" />
+    <property name="rowMapper" >
+       <bean class="tp.tpSpringBatch.db.ProductStatRowMapper">
+       </bean>
+    </property>
+</bean>   
+
+  
+<bean id="jdbcProductWithDetailsReaderWithPartition" scope="step"
+class="org.springframework.batch.item.database.JdbcPagingItemReader">
+    <property name="dataSource" ref="productdbDataSource" />
+    <property name="queryProvider">
+	  <bean class="org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean">
+		<property name="dataSource" ref="productdbDataSource" />
+		<property name="selectClause" value="SELECT id,main_category,sub_category,label,price,time_stamp,f_color,f_weight,f_size,f_description" />
+		<property name="fromClause" value="FROM product_with_details" />
+		<property name="whereClause" value="where id &gt;= :from and id &lt;= :to" />
+		<property name="sortKey" value="id" />
+	  </bean>
+	</property>
+    <property name="parameterValues">
+	  <map>
+		<entry key="from" value="#{stepExecutionContext[from]}" />
+		<entry key="to" value="#{stepExecutionContext[to]}" />
+	  </map>
+	</property>
+	<property name="pageSize" value="5" />
+    <property name="rowMapper" >
+       <bean class="tp.tpSpringBatch.db.ProductWithDetailsRowMapper">
+       </bean>
+    </property>
+</bean>  
+  
+
+   
+ </beans>
