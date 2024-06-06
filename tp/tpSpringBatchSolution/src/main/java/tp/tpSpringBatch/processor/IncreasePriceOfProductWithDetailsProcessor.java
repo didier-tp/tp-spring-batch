@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 
 import tp.tpSpringBatch.model.ProductWithDetails;
 
+/*
+ * NB: cette version du processeur va récupérer les paramétrages
+ * dans jobParameters .
+ */
+
+
 @Component
 @StepScope
 //@JobScope

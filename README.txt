@@ -17,4 +17,10 @@ git pull
 ---------
 Aternative --> code / download zip
 
+-------------------
+Compléments "springBatch"
+application exemple "mySpringBatch" dans l'autre référentiel git
+https://github.com/didier-mycontrib/spring6plus
+
+
 

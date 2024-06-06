@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
+//@EnableTask
 public class TpSpringBatchApplication  implements CommandLineRunner{
 	
 	private final JobLauncher jobLauncher;
@@ -25,8 +27,8 @@ public class TpSpringBatchApplication  implements CommandLineRunner{
 	}
 
 	public static void main(String[] args) {
-		String defaultProfils  = "xmlJobConfig";
-		//String defaultProfils  = "";
+		//String defaultProfils  = "xmlJobConfig";
+		String defaultProfils  = "";
 		System.setProperty("spring.profiles.default", defaultProfils);
 		SpringApplication.run(TpSpringBatchApplication.class, args);
 	}

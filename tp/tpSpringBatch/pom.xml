@@ -21,6 +21,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-batch</artifactId>
 		</dependency>
+		
+		<!-- for @EnableTask and spring_cloud_data_flow -->
+<!--		<dependency>-->
+<!--    		<groupId>org.springframework.cloud</groupId>-->
+<!--    		<artifactId>spring-cloud-task-core</artifactId>-->
+<!--    		<version>3.1.0</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>com.h2database</groupId>
