@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.task.configuration.EnableTask;
 //import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-//@EnableTask
+@EnableTask
 public class TpSpringBatchApplication  implements CommandLineRunner{
 	
 	private final JobLauncher jobLauncher;
