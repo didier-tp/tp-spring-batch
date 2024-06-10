@@ -1,0 +1,4 @@
+peaufiner support de cours sur les aspects "ItemStream" , "Listener" , "ExecutionContext" (avec par exemple des diagrammes de séquences)
+peaufiner énoncés et solutions de TP sur partie "restart"
+--------
+Et selon le temps disponible, continuer à approfondir spring-cloud-data-flow

@@ -25,8 +25,8 @@ public class TpSpringBatchApplication  implements CommandLineRunner{
 	}
 
 	public static void main(String[] args) {
-		String defaultProfils  = "xmlJobConfig";
-		//String defaultProfils  = "";
+		//String defaultProfils  = "xmlJobConfig";
+		String defaultProfils  = "";
 		System.setProperty("spring.profiles.default", defaultProfils);
 		SpringApplication.run(TpSpringBatchApplication.class, args);
 	}
@@ -37,6 +37,7 @@ public class TpSpringBatchApplication  implements CommandLineRunner{
 		//String defaultJobName="fromCsvToConsoleJob";
 		//String defaultJobName="fromCsvToJsonJob";
 		String defaultJobName="fromCsvToXmlJob";
+		//String defaultJobName="fromDetailsCsvToDbWithRetartableJob";
 		String jobName = null;
 		if(args.length>0)
 			jobName=args[0];
@@ -44,6 +45,7 @@ public class TpSpringBatchApplication  implements CommandLineRunner{
 		    jobName=System.getProperty("jobName", defaultJobName);
 		
 		String defaultInputFilePath="data/input/csv/products.csv";
+		//String defaultInputFilePath="data/input/csv/newDetailsProducts_withOrWithoutErrors.csv";
 		String inputFilePath=System.getProperty("inputFilePath", defaultInputFilePath);
 		
 		String defaultOutputFilePath="data/output/xml/products.xml";

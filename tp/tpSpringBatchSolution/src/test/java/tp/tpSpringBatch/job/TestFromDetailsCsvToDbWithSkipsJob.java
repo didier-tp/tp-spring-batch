@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import tp.tpSpringBatch.AbstractBasicActiveTestJob;
 import tp.tpSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
 import tp.tpSpringBatch.datasource.MyProductDbDataSourceConfig;
-import tp.tpSpringBatch.job.java.ProductsWithDetailsCsvToDbJobConfig;
+import tp.tpSpringBatch.job.java.ProductsWithDetailsCsvToDbJobWithSkipsConfig;
 import tp.tpSpringBatch.reader.java.MyCsvFileProductWithDetailsReaderConfig;
 import tp.tpSpringBatch.writer.java.MyConsoleProductWithDetailsWriterConfig;
 import tp.tpSpringBatch.writer.java.MyDbProductWithDetailsWriterConfig;
@@ -21,23 +21,22 @@ import tp.tpSpringBatch.writer.java.MyDbProductWithDetailsWriterConfig;
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class,
 	MyProductDbDataSourceConfig.class,
-	ProductsWithDetailsCsvToDbJobConfig.class ,
+	ProductsWithDetailsCsvToDbJobWithSkipsConfig.class ,
 	MyConsoleProductWithDetailsWriterConfig.class ,
 	MyCsvFileProductWithDetailsReaderConfig.class,
 	MyDbProductWithDetailsWriterConfig.class
 	})
-class FromDetailsCsvToDbTestConfig{
+class FromDetailsCsvToDbWithSkipsTestConfig{
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { FromDetailsCsvToDbTestConfig.class } )
+@SpringBootTest(classes = { FromDetailsCsvToDbWithSkipsTestConfig.class } )
 @ActiveProfiles(profiles = {})
-public class TestFromDetailsCsvToDbJob extends AbstractBasicActiveTestJob {
-	
+public class TestFromDetailsCsvToDbWithSkipsJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
-		.addString("inputFilePath", "data/input/csv/newDetailsProducts.csv");//used by some Reader/Writer
+		.addString("inputFilePath", "data/input/csv/newDetailsProducts_withErrors.csv");//used by some Reader/Writer
 	}
 
 }

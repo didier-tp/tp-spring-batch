@@ -24,6 +24,7 @@ import tp.tpSpringBatch.model.ProductWithDetails;
 public class MyDbProductWithDetailsReaderWithPartitionConfig {
 	private static final String SELECT_CLAUSE = "SELECT id,main_category,sub_category,label,price,time_stamp,f_color,f_weight,f_size,f_description";
 
+	
 	@Bean
 	@Qualifier("db_with_partition")
 	@StepScope
