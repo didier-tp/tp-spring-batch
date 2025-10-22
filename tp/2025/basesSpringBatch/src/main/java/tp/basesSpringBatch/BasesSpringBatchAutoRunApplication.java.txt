@@ -1,0 +1,37 @@
+package tp.basesSpringBatch;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/*
+BasesSpringBatchAutoRunApplication est une variante simpllifiée de BasesSpringBatchApplication
+qui illustre le fait que Spring Boot peut automatiquement exécuter un job batch au démarrage de l'application
+en définissant un bean de type Job dans le contexte Spring et en configurant l'application avec la propriété
+spring.batch.job.enabled=true (valeur par défaut) et si besoin en définissant spring.batch.job.names=nomDuJob
+pour spécifier quel job exécuter si plusieurs jobs sont définis dans le contexte Spring.
+ */
+
+@SpringBootApplication
+public class BasesSpringBatchAutoRunApplication  {
+
+	public static void main(String[] args) {
+        SpringApplication.run(BasesSpringBatchAutoRunApplication.class, args);
+        //à lancer avec spring.datasource.url=jdbc:h2:mem:myjobrepositorydb
+        //et spring.batch.job.enabled=true (et éventuellement spring.batch.job.name=myHelloWorldJob)
+	}
+}
+
+/*
+avec une URL "h2 en mémoire" telle que spring.datasource.url=jdbc:h2:mem:myjobrepositorydb,
+la base myjobrepositorydb est réinitialisée à chaque démarrage de l'application.
+et le job a tendance à s'exécuter à chaque fois (car pas noté comme "COMPLETED" dans la BDD).
+
+Inversement avec une URL "h2 fichier" telle que spring.datasource.url=jdbc:h2:~/myjobrepositorydb,
+ou bien une URL mysql ou postgresql ,
+Un second démarrage de l'application trouve la BDD existante, et le job ne s'exécute pas (car noté comme "COMPLETED" dans la BDD).
+Exemple de message: Step already complete or not restartable, so no action to execute
+
+----
+Avec un run explicite , on peut forcer l'exécution du job à chaque démarrage de l'application,
+via l'ajout d'un paramètre de job qui change à chaque fois (ex: un timestamp).
+ */
