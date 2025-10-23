@@ -21,7 +21,7 @@ public class ProductsWithDetailsCsvToDbJobConfig extends MyAbstractJobConfig{
     public static final String JOB_NAME = "fromDetailsCsvToDbJob";
     public static final String PREPARE_STEP_NAME = "prepareProductWithDetailsTableInDbStep";
     public static final String MAIN_STEP_NAME = "stepDetailsCsvToDb";
-    public static final String DB_ACCESS_TYPE = "db-jpa"; //"db-jpa" or "db-repository"
+    public static final String DB_ACCESS_TYPE = "db-repository"; //"db-jpa" or "db-repository"
 
   @Bean(name=JOB_NAME)
   public Job fromDetailsCsvToDbJob(@Qualifier(MAIN_STEP_NAME) Step mainStep,
