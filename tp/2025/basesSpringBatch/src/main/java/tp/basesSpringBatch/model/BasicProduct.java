@@ -3,6 +3,7 @@ package tp.basesSpringBatch.model;
 //import jakarta.xml.bind.annotation.XmlRootElement;
 //import lombok.AllArgsConstructor;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import lombok.ToString;
 
 @Getter @Setter @NoArgsConstructor @ToString
 //@AllArgsConstructor
-//@XmlRootElement(name = "product")
+@XmlRootElement(name = "product")
 public class BasicProduct {
 	private Integer id;
 	private String main_category;

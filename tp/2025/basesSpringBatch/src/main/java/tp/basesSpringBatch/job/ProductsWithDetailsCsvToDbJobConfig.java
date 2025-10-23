@@ -12,18 +12,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import tp.basesSpringBatch.model.ProductWithDetails;
+import tp.basesSpringBatch.tasklet.InitProductWithDetailsTasklet;
+import tp.basesSpringBatch.tasklet.PrintMessageTasklet;
 
 @Configuration
 @Slf4j
 public class ProductsWithDetailsCsvToDbJobConfig extends MyAbstractJobConfig{
 
     public static final String JOB_NAME = "fromDetailsCsvToDbJob";
+    public static final String PREPARE_STEP_NAME = "prepareProductWithDetailsTableInDbStep";
     public static final String MAIN_STEP_NAME = "stepDetailsCsvToDb";
 
   @Bean(name=JOB_NAME)
-  public Job fromDetailsCsvToDbJob(@Qualifier(MAIN_STEP_NAME) Step step1) {
+  public Job fromDetailsCsvToDbJob(@Qualifier(MAIN_STEP_NAME) Step mainStep,
+                                   @Qualifier(PREPARE_STEP_NAME) Step prepareStep) {
     var jobBuilder = new JobBuilder(JOB_NAME, jobRepository);
-    return jobBuilder.start(step1)
+    return jobBuilder.start(prepareStep)
+            .next(mainStep)
     		//.listener(new JobCompletionNotificationListener())
     		.build();
   }

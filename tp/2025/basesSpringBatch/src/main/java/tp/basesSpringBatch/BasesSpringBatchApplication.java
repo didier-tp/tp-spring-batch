@@ -28,9 +28,13 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
 
     @Override //from CommandLineRunner interface (called automatically)
     public void run(String... args) throws Exception {
-        //var defaultJobName = "myHelloWorldJob";
-        //var defaultJobName = "fromCsvToConsoleJob";
-        var defaultJobName = "fromDetailsCsvToDbJob";
+        //var defaultJobName = "myHelloWorldJob"; //OK
+        //var defaultJobName = "fromCsvToConsoleJob"; //OK with defaultInputFilePath="data/input/csv/products.csv";
+        //var defaultJobName = "fromDetailsCsvToDbJob"; //OK with defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
+        //var defaultJobName = "fromCsvToJsonJob"; //ok with defaultInputFilePath="data/input/csv/products.csv";
+        //var defaultJobName = "fromCsvToXmlJob";//ok with defaultInputFilePath="data/input/csv/products.csv"; and defaultOutputFilePath="data/output/xml/products.xml";
+        var defaultJobName = "generateDbDataSetJob"; //OK with no input file , no output file but need product_with_details table  in productdb
+        //var defaultJobName = "fromDbExtractStatToCsvJob"; //OK with no input file , output file ="data/output/csv/productStats.csv" and need product table in productdb
 
         String jobName = null;
         if(args.length>0)
@@ -55,6 +59,8 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
                 .addString("inputFilePath", inputFilePath)//used by some Reader/Writer
                 .addString("outputFilePath", outputFilePath)//used by some Reader/Writer
                 .addString("enableUpperCase", "true")//used by SimpleUppercaseProductProcessor
+				.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor
+                .addDouble("increaseRatePct", 5.0)//used by IncreasePriceOfProductWithDetailsProcessor
                 .toJobParameters();
         var jobExecution = jobLauncher.run(job, jobParameters);
 

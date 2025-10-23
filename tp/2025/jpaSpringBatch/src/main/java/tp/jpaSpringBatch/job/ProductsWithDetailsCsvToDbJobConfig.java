@@ -1,0 +1,51 @@
+package tp.jpaSpringBatch.job;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import tp.jpaSpringBatch.model.ProductWithDetails;
+import tp.jpaSpringBatch.tasklet.InitProductWithDetailsTasklet;
+
+
+@Configuration
+@Slf4j
+public class ProductsWithDetailsCsvToDbJobConfig extends MyAbstractJobConfig{
+
+    public static final String JOB_NAME = "fromDetailsCsvToDbJob";
+    public static final String PREPARE_STEP_NAME = "prepareProductWithDetailsTableInDbStep";
+    public static final String MAIN_STEP_NAME = "stepDetailsCsvToDb";
+    public static final String DB_ACCESS_TYPE = "db-jpa"; //"db-jpa" or "db-repository"
+
+  @Bean(name=JOB_NAME)
+  public Job fromDetailsCsvToDbJob(@Qualifier(MAIN_STEP_NAME) Step mainStep,
+                                   @Qualifier(PREPARE_STEP_NAME) Step prepareStep) {
+    var jobBuilder = new JobBuilder(JOB_NAME, jobRepository);
+    return jobBuilder.start(prepareStep)
+            .next(mainStep)
+    		//.listener(new JobCompletionNotificationListener())
+    		.build();
+  }
+
+  @Bean(name=MAIN_STEP_NAME)
+  //@Qualifier("csvToDb")
+  public Step stepDetailsCsvToDb(@Qualifier("csv") ItemReader<ProductWithDetails> productItemReader,
+		            //@Qualifier("console") ItemWriter<ProductWithDetails> productItemWriter  
+		            @Qualifier(DB_ACCESS_TYPE) ItemWriter<ProductWithDetails> productItemWriter
+		            ) {
+    var stepBuilder = new StepBuilder(MAIN_STEP_NAME, jobRepository);
+    return stepBuilder
+        .<ProductWithDetails, ProductWithDetails>chunk(5, batchTxManager)
+        .reader(productItemReader)
+        .writer(productItemWriter)
+        .build();
+  }
+ 
+
+}

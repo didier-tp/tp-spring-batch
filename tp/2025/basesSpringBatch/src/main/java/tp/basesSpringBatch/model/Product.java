@@ -1,11 +1,12 @@
 package tp.basesSpringBatch.model;
 
 //import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-//@XmlRootElement(name = "product") //just for read/generate XML file with jaxb2 marshaller
+@XmlRootElement(name = "product") //just for read/generate XML file with jaxb2 marshaller
 public class Product extends BasicProduct {
     private String features;
 

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import tp.basesSpringBatch.AbstractBasicActiveTestJob;
 import tp.basesSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
-import tp.basesSpringBatch.datasource.MyProductDbDataSourceConfig;
+import tp.basesSpringBatch.config.MyProductDbDataSourceConfig;
 import tp.basesSpringBatch.reader.MyCsvFileProductWithDetailsReaderConfig;
 import tp.basesSpringBatch.writer.MyDbProductWithDetailsWriterConfig;
 
