@@ -1,4 +1,4 @@
-package tp.basesSpringBatch.partitionner;
+package tp.basesSpringBatch.partitioner;
 
 import java.util.HashMap;
 import java.util.Map;

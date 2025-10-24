@@ -3,8 +3,6 @@ package tp.basesSpringBatch.job;
 import javax.sql.DataSource;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -15,14 +13,11 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.TaskExecutor;
 
-import tp.basesSpringBatch.decider.MyUpdatedCountCheckingDecider;
 import tp.basesSpringBatch.model.ProductWithDetails;
-import tp.basesSpringBatch.partitionner.NumericColumnRangePartitioner;
+import tp.basesSpringBatch.partitioner.NumericColumnRangePartitioner;
 import tp.basesSpringBatch.processor.IncreasePriceOfProductWithDetailsProcessor;
-import tp.basesSpringBatch.tasklet.PrintMessageTasklet;
 
 @Configuration
 @Slf4j
@@ -65,7 +60,8 @@ public class IncreaseProductPriceInDbWithPartitionJobConfig extends MyAbstractJo
       return builder
           .partitioner("workerStep", partitioner)
           .step(workerStep)
-          .gridSize(4)
+          //.gridSize(4)
+          .gridSize(Runtime.getRuntime().availableProcessors())
           .taskExecutor(taskExecutor)
           .build();
   }

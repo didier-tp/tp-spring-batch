@@ -1,4 +1,4 @@
-package tp.basesSpringBatch.job;
+package tp.restartableBatch.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -10,19 +10,18 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
-import tp.basesSpringBatch.listener.MyStoppedForRestartExecutionListener;
-import tp.basesSpringBatch.model.ProductWithDetails;
+import tp.restartableBatch.listener.MyStoppedForRestartExecutionListener;
+import tp.restartableBatch.model.ProductWithDetails;
 
 @Configuration
 @Slf4j
-public class ProductsWithDetailsCsvToDbJobWithRestartableConfig extends MyAbstractJobConfig{
-    public static final String JOB_NAME = "fromDetailsCsvToDbWithRetartableJob";
-    public static final String MAIN_STEP_NAME = "stepDetailsCsvToDbWithRetartable";
+public class ProductsWithDetailsCsvToConsoleJobRestartableConfig extends MyAbstractJobConfig{
+    public static final String JOB_NAME = "fromCsvToConsoleJobRestartable";
+    public static final String MAIN_STEP_NAME = "stepCsvToConsoleRestartable";
 
   @Bean(name=JOB_NAME)
-  public Job fromDetailsCsvToDbWithRetartableJob(@Qualifier(MAIN_STEP_NAME) Step step1) {
+  public Job stepCsvToConsoleRestartable(@Qualifier(MAIN_STEP_NAME) Step step1) {
     var jobBuilder = new JobBuilder(JOB_NAME, jobRepository);
     return jobBuilder.start(step1)
     		//.listener(new JobCompletionNotificationListener())
@@ -30,14 +29,12 @@ public class ProductsWithDetailsCsvToDbJobWithRestartableConfig extends MyAbstra
   }
 
   @Bean(name=MAIN_STEP_NAME)
-  //@Qualifier("csvToDbWithRetartable")
-  public Step stepDetailsCsvToDbWithRetartable(@Qualifier("csv") ItemReader<ProductWithDetails> productItemReader,
-		            //@Qualifier("console") ItemWriter<ProductWithDetails> productItemWriter  
-		            @Qualifier("insert_in_db") ItemWriter<ProductWithDetails> productItemWriter  
+  public Step stepDetailsCsvToDbWithRestartable(@Qualifier("csv") ItemReader<ProductWithDetails> productItemReader,
+		            @Qualifier("console") ItemWriter<ProductWithDetails> productItemWriter
 		            ) {
     var stepBuilder = new StepBuilder(MAIN_STEP_NAME, jobRepository);
     return stepBuilder
-        .<ProductWithDetails, ProductWithDetails>chunk(5, batchTxManager)
+        .<ProductWithDetails, ProductWithDetails>chunk(2, batchTxManager)
         .reader(productItemReader)
         .startLimit(3)
         .listener(new MyStoppedForRestartExecutionListener())

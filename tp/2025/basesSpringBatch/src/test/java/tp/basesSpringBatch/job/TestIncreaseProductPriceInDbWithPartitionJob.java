@@ -48,10 +48,23 @@ public class TestIncreaseProductPriceInDbWithPartitionJob extends AbstractBasicA
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
         .addDouble("increaseRatePct", 1.0)//used by IncreasePriceOfProductWithDetailsProcessor (1% d'augmentation)
-        .addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
+        //.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
 		.addString("productCategoryToIncrease", "all");//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
 		//4.5s
-	}  
-	
-	//2,3s avec partition avec 16 enregistrements et pause de 200ms
+	}
+
+    @Override
+    public void postJobCheckings() {
+        System.out.println("nbProcessors=" + Runtime.getRuntime().availableProcessors());
+    }
+
+    //H2 : 2,3s avec partition avec 16 enregistrements et pause de 200ms
+
+    //Sur pc avec 8 processeurs:
+    //MySql : 23s avec partition avec 10000 enregistrements et pause de 0ms (gridSize=1)
+    //MySql : 14,5s avec partition avec 10000 enregistrements et pause de 0ms (gridSize=2)
+    //MySql : 8,9s avec partition avec 10000 enregistrements et pause de 0ms (gridSize=4)
+    //MySql : 7,1s avec partition avec 10000 enregistrements et pause de 0ms (gridSize=6)
+    //MySql : 6,3s avec partition avec 10000 enregistrements et pause de 0ms (gridSize=8)
+    //MySql : 5,8s avec partition avec 10000 enregistrements et pause de 0ms (gridSize=10)
 }

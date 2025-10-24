@@ -10,9 +10,9 @@ import org.springframework.test.context.ActiveProfiles;
 import tp.basesSpringBatch.AbstractBasicActiveTestJob;
 import tp.basesSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
 import tp.basesSpringBatch.config.MyProductDbDataSourceConfig;
+import tp.basesSpringBatch.processor.UppercaseProductWithDetailsProcessorWithRetry;
 import tp.basesSpringBatch.reader.MyCsvFileProductWithDetailsReaderConfig;
-import tp.basesSpringBatch.step.PrepareProductTableInDbStepConfig;
-import tp.basesSpringBatch.tasklet.InitProductWithDetailsTasklet;
+import tp.basesSpringBatch.writer.MyConsoleProductWithDetailsWriterConfig;
 import tp.basesSpringBatch.writer.MyDbProductWithDetailsWriterConfig;
 
 
@@ -20,23 +20,22 @@ import tp.basesSpringBatch.writer.MyDbProductWithDetailsWriterConfig;
 @EnableAutoConfiguration //springBoot & spring-boot-starter-batch autoConfig (application.properties)
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class,
 	MyProductDbDataSourceConfig.class,
-	ProductsWithDetailsCsvToDbJobConfig.class ,
-	/*MyConsoleProductWithDetailsWriterConfig.class ,*/
+	ProductsWithDetailsCsvToDbJobWithRetryConfig.class ,
+	MyConsoleProductWithDetailsWriterConfig.class ,
 	MyCsvFileProductWithDetailsReaderConfig.class,
-	MyDbProductWithDetailsWriterConfig.class,
-        PrepareProductTableInDbStepConfig.class , InitProductWithDetailsTasklet.class
+	MyDbProductWithDetailsWriterConfig.class , UppercaseProductWithDetailsProcessorWithRetry.class
 	})
-class FromDetailsCsvToDbTestConfig{
+class FromDetailsCsvToDbWithRetryTestConfig{
 }
 
 @SpringBatchTest
-@SpringBootTest(classes = { FromDetailsCsvToDbTestConfig.class } )
+@SpringBootTest(classes = { FromDetailsCsvToDbWithRetryTestConfig.class } )
 @ActiveProfiles(profiles = {})
-public class TestFromDetailsCsvToDbJob extends AbstractBasicActiveTestJob {
-	
+public class TestFromDetailsCsvToDbWithRetryJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
+        .addString("enableUppercase", "true")
 		.addString("inputFilePath", "data/input/csv/newDetailsProducts.csv");//used by some Reader/Writer
 	}
 

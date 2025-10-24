@@ -1,17 +1,20 @@
 package tp.basesSpringBatch.decider;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.job.flow.FlowExecutionStatus;
 import org.springframework.batch.core.job.flow.JobExecutionDecider;
 
+@Slf4j
 public class MyUpdatedCountCheckingDecider implements JobExecutionDecider {
 	
 	public long minManyUpdated = 2; //2=default value , may be override by jobParameter of same name
 
 	@Override
 	public FlowExecutionStatus decide(JobExecution jobExecution, StepExecution stepExecution) {
+        FlowExecutionStatus status = null;
 		//stepExecution as "lastStepExecution"
 		if(stepExecution==null) return new FlowExecutionStatus(ExitStatus.UNKNOWN.toString());
 		
@@ -20,8 +23,10 @@ public class MyUpdatedCountCheckingDecider implements JobExecutionDecider {
 		
 		Integer nbAjustedProducts = (Integer) stepExecution.getExecutionContext().get("nbAjustedProducts");
 		if(nbAjustedProducts>=minManyUpdated)
-			return new FlowExecutionStatus("COMPLETED_WITH_MANY_UPDATED");
+			status = new FlowExecutionStatus("COMPLETED_WITH_MANY_UPDATED");
 		else
-			return new FlowExecutionStatus(stepExecution.getExitStatus().getExitCode().toString());
+			status = new FlowExecutionStatus(stepExecution.getExitStatus().getExitCode().toString());
+        log.info("MyUpdatedCountCheckingDecider decide(): nbAjustedProducts="+nbAjustedProducts+", minManyUpdated="+minManyUpdated+", returning status="+status);
+        return status;
 	}
 }

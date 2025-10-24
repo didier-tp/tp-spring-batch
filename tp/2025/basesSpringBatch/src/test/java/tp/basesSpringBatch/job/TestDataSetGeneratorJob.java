@@ -14,6 +14,8 @@ import tp.basesSpringBatch.config.MyProductDbDataSourceConfig;
 
 import tp.basesSpringBatch.reader.MyCustomProductWithDetailsGeneratorReaderConfig;
 
+import tp.basesSpringBatch.step.PrepareProductTableInDbStepConfig;
+import tp.basesSpringBatch.tasklet.InitProductWithDetailsTasklet;
 import tp.basesSpringBatch.writer.MyDbProductWithDetailsWriterConfig;
 
 @Configuration
@@ -22,7 +24,8 @@ import tp.basesSpringBatch.writer.MyDbProductWithDetailsWriterConfig;
 	MyProductDbDataSourceConfig.class,
 	DataSetGeneratorJobConfig.class ,
 	MyCustomProductWithDetailsGeneratorReaderConfig.class,
-	MyDbProductWithDetailsWriterConfig.class
+	MyDbProductWithDetailsWriterConfig.class,
+        PrepareProductTableInDbStepConfig.class , InitProductWithDetailsTasklet.class
 	})
 class DataSetGeneratorTestConfig{
 }
@@ -35,10 +38,14 @@ public class TestDataSetGeneratorJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
-		.addLong("dataSetSize", 10000L);
+		.addLong("dataSetSize", 10000L);//ou 10000L
 		//4.5 s avec commitInterval = 1 dans generateDbDataSetJob
 		//2.7 s avec commitInterval = 10 dans generateDbDataSetJob
 		//1.9 s avec commitInterval = 100 dans generateDbDataSetJob
+
+        //avec mysql et commitInterval = 1 dans generateDbDataSetJob : 41s
+        //avec mysql et commitInterval = 10 dans generateDbDataSetJob : 21s
+        //avec mysql et commitInterval = 100 dans generateDbDataSetJob : 14s
 	}
 	
 	

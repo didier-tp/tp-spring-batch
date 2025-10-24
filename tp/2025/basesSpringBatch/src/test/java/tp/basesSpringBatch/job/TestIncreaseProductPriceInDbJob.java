@@ -48,10 +48,11 @@ public class TestIncreaseProductPriceInDbJob extends AbstractBasicActiveTestJob 
 		return jobParametersBuilder
         .addDouble("increaseRatePct", 1.0)//used by IncreasePriceOfProductWithDetailsProcessor (1% d'augmentation)
 		.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
-		.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
+		//.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
 		.addLong("minManyUpdated",2L);//used by MyUpdatedCountCheckingDecider
         
 	}
 	
-	//4.5s , 4.5s sans partition avec 16 enregistrements et pause de 200ms
+	//H2, 4.5s , 4.5s sans partition avec 16 enregistrements et pause de 200ms
+    //MySql ,13,5 sans partition avec 10000 enregistrements et pause de 0ms
 }
