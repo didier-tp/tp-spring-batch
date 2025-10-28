@@ -26,8 +26,8 @@ public class JpaSpringBatchApplication  implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //var defaultJobName = "fromDetailsCsvToDbJob"; //OK with defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
-        //var defaultJobName = "generateDbDataSetJob";//OK
-        var defaultJobName = "increaseProductPriceInDbJob";
+        var defaultJobName = "generateDbDataSetJob";//OK
+        //var defaultJobName = "increaseProductPriceInDbJob";
 
         String jobName = null;
         if(args.length>0)

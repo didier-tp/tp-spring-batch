@@ -1,4 +1,4 @@
-package tp.myQuartzScheduler.service;
+package tp.myBatchAdmin.service;
 
 import org.springframework.stereotype.Service;
 

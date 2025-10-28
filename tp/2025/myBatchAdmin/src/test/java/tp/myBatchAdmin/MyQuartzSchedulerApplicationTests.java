@@ -1,4 +1,4 @@
-package tp.myQuartzScheduler;
+package tp.myBatchAdmin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package tp.myQuartzScheduler.scheduler;
+package tp.myBatchAdmin.scheduler;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -6,7 +6,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tp.myQuartzScheduler.basic.MySampleJob;
+import tp.myBatchAdmin.basic.MySampleJob;
 
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 

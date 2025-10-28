@@ -1,0 +1,3 @@
+default output directory for job execution notifications
+start_jobName_timestamp.json
+end_jobName_timestamp.json

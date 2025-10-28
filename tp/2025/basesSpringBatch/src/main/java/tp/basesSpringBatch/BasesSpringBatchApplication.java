@@ -1,6 +1,7 @@
 package tp.basesSpringBatch;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -9,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import tp.basesSpringBatch.admin.JobExecInfo;
 
 /*
 NB: pour ne pas trop cacher le run automatique de Spring Boot,
@@ -17,6 +20,7 @@ NB: pour ne pas trop cacher le run automatique de Spring Boot,
 
 @SpringBootApplication
 @RequiredArgsConstructor //Lombok annotation to generate a spring injection constructor with required arguments (final fields)
+@Slf4j
 public class BasesSpringBatchApplication  implements CommandLineRunner {
 
     private final JobLauncher jobLauncher;
@@ -42,6 +46,8 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
         else
             jobName=System.getProperty("jobName", defaultJobName);
 
+        String jobExecNotifDirectory = System.getProperty("jobExecNotifDirectory", "data/output/jobExecNotifications");
+
         //String defaultInputFilePath="data/input/csv/products.csv";
         String defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
         //String defaultInputFilePath="data/input/csv/newDetailsProducts_withOrWithoutErrors.csv";
@@ -50,26 +56,33 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
         String defaultOutputFilePath="data/output/xml/products.xml";
         String outputFilePath=System.getProperty("outputFilePath", defaultOutputFilePath);
 
-        System.out.println("****>>> jobName="+jobName +  " inputFilePath=" + inputFilePath + " outputFilePath=" + outputFilePath);
+        log.info("****>>> jobName="+jobName +  " inputFilePath=" + inputFilePath + " outputFilePath=" + outputFilePath);
 
         Job job = (Job) applicationContext.getBean(jobName);
 
+        long defaultTimeStampOfJobInstance = System.currentTimeMillis();
+        Long timeStampOfJobInstance = Long.parseLong(System.getProperty("timeStampOfJobInstance", Long.toString(defaultTimeStampOfJobInstance)));
+
         JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("timeStampOfJobInstance", System.currentTimeMillis())//Necessary for running several instances of a same job (each jobInstance must have a parameter that changes)
+                .addLong("timeStampOfJobInstance", timeStampOfJobInstance)//Necessary for running several instances of a same job (each jobInstance must have a parameter that changes)
                 .addString("inputFilePath", inputFilePath)//used by some Reader/Writer
                 .addString("outputFilePath", outputFilePath)//used by some Reader/Writer
                 .addString("enableUpperCase", "true")//used by SimpleUppercaseProductProcessor
 				.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor
                 .addDouble("increaseRatePct", 5.0)//used by IncreasePriceOfProductWithDetailsProcessor
+                .addLong("dataSetSize", 5000L)//used by DataSetGeneratorJob
                 .toJobParameters();
         var jobExecution = jobLauncher.run(job, jobParameters);
+        String startingJobNotifPath = jobExecNotifDirectory +"/start_"+ jobName + "_"+ timeStampOfJobInstance + ".json";
+        JobExecInfo.writeJobExecInfoToFile(JobExecInfo.fromJobExecution(jobExecution), startingJobNotifPath);
+        //var batchStatus = jobExecution.getStatus();
 
-        var batchStatus = jobExecution.getStatus();
-        while (batchStatus.isRunning()) {
+        while (jobExecution.getStatus().isRunning()) {
             System.out.println("Job still running...");
             Thread.sleep(5000L);
         }
         System.out.println("Job " + jobName + " is finished ...");
-
+        String endingJobNotifPath = jobExecNotifDirectory +"/end_"+ jobName + "_"+ timeStampOfJobInstance + ".json";
+        JobExecInfo.writeJobExecInfoToFile(JobExecInfo.fromJobExecution(jobExecution), endingJobNotifPath);
     }
 }
