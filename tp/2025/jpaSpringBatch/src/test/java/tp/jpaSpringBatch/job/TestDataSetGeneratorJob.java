@@ -38,7 +38,7 @@ class DataSetGeneratorTestConfig{
 @ActiveProfiles(profiles = {})
 public class TestDataSetGeneratorJob extends AbstractBasicActiveTestJob {
 
-   
+
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
