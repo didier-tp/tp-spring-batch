@@ -47,7 +47,8 @@ public class TestIncreaseProductPriceInDbJob extends AbstractBasicActiveTestJob 
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
         .addDouble("increaseRatePct", 1.0)//used by IncreasePriceOfProductWithDetailsProcessor (1% d'augmentation)
-		.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
+                .addString("productCategoryToIncrease", "all")
+                //.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
 		//.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
 		.addLong("minManyUpdated",2L);//used by MyUpdatedCountCheckingDecider
         

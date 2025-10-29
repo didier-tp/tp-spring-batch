@@ -10,6 +10,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
@@ -22,6 +24,9 @@ public abstract class AbstractResourceDatabasePopulatorTasklet implements Taskle
     private String resourcePath="sql/batch-schema.sql";//by default
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    //NB: to avoid transaction management issues when executing DDL scripts (like CREATE TABLE)
+    //without this: The command cannot be executed when global transaction is in the ACTIVE state (in xa/jta mode)
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         ResourceDatabasePopulator rdp = new ResourceDatabasePopulator();
         rdp.addScript(new ClassPathResource(resourcePath));

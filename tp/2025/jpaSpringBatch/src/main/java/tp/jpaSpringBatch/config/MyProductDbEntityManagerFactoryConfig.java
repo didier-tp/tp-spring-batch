@@ -50,6 +50,8 @@ public class MyProductDbEntityManagerFactoryConfig {
         return emf.getObject();
     }
 
+    /*
+    //pour ANCIENNE VERSION SANS JTA/XA/Atomikos:
 
     // Transaction Manager for JPA or ...
     //@Bean(name = "productTransactionManager")
@@ -60,7 +62,7 @@ public class MyProductDbEntityManagerFactoryConfig {
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
     }
-
+  */
 
 
     //not used but required by default with spring-jpa-starter
@@ -82,15 +84,5 @@ public class MyProductDbEntityManagerFactoryConfig {
         emf.afterPropertiesSet();
         return emf.getObject();
     }
-/*
-    // Transaction Manager for JPA or ...
-    @Bean(name = "transactionManager")
-    //@Primary
-    public PlatformTransactionManager transactionManager(
-            @Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager txManager = new JpaTransactionManager();
-        txManager.setEntityManagerFactory(entityManagerFactory);
-        return txManager;
-    }
-*/
+
 }

@@ -51,7 +51,15 @@ public class IncreasePriceOfProductWithDetailsProcessor implements ItemProcessor
 		if(slowProcessorDelay!=null) {
 			Thread.currentThread().sleep(slowProcessorDelay); //simulation traitement long
 		}
-		
+
+        /*
+        //comportement avec default transaction manager:
+        ligne aliment_8 pas modifiée car echec de mise à jour (id non existant)
+        mais autres lignes du chunk (ici de taille 5)  tout de même mises à jour en base car pas de mode jta/xa ici
+        if(p.getLabel().equals("aliment_8"))
+            p.setId(10000); //pour tester exception de mise à jour (id non existant)
+          */
+
 		if( ( p.getMain_category()!=null && p.getMain_category().equals(productCategoryToIncrease) )
 				|| productCategoryToIncrease.equals("all")) {
 			Double newPrice  = p.getPrice() * (1 + increaseRatePct/100.0);

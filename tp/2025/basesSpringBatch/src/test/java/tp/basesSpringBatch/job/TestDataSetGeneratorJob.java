@@ -38,7 +38,8 @@ public class TestDataSetGeneratorJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {
 		return jobParametersBuilder
-		.addLong("dataSetSize", 10000L);//ou 10000L
+                .addLong("dataSetSize", 100L);
+		//.addLong("dataSetSize", 10000L);//ou 10000L
 		//4.5 s avec commitInterval = 1 dans generateDbDataSetJob
 		//2.7 s avec commitInterval = 10 dans generateDbDataSetJob
 		//1.9 s avec commitInterval = 100 dans generateDbDataSetJob

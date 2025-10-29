@@ -26,6 +26,7 @@ public class ProductWithDetailsRowMapper implements RowMapper<ProductWithDetails
         p.setId(rs.getInt(ID_COLUMN));
         p.setMain_category(rs.getString(MAIN_CATEGORY_COLUMN));
         p.setSub_category(rs.getString(SUB_CATEGORY_COLUMN));
+		p.setLabel(rs.getString(LABEL_COLUMN));
         p.setPrice(rs.getDouble(PRICE_COLUMN));
         p.setTime_stamp(rs.getString(TIMESTAMP_COLUMN));
 	        ProductFeatures f  = new ProductFeatures();

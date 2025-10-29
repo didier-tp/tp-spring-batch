@@ -40,13 +40,32 @@
 		</dependency>
 
         <dependency>
+            <groupId>com.atomikos</groupId>
+            <artifactId>transactions-spring-boot3</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+
+        <!-- with indirect dependencies: com.atomikos:transactions-jta:6.0.0
+                                     and com.atomikos:transactions-jdbc:6.0.0
+                                     and jakarta-transaction:jakarta-transaction-api:2.1.0
+        -->
+
+        <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+
+        <!--
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 		</dependency>
+		-->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
