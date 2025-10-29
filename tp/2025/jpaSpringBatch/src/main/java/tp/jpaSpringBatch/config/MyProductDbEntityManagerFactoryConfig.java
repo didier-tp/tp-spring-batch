@@ -3,6 +3,7 @@ package tp.jpaSpringBatch.config;
 
 import jakarta.persistence.EntityManagerFactory;
 
+import org.hibernate.engine.transaction.jta.platform.internal.AtomikosJtaPlatform;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -45,6 +46,11 @@ public class MyProductDbEntityManagerFactoryConfig {
                 new HibernateJpaVendorAdapter());
         Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.dialect",this.productdbHibernateDialect);
+
+        //pour NOUVELLE VERSION AVEC JTA/XA/Atomikos:
+        jpaProperties.setProperty("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
+        jpaProperties.setProperty("jakarta.persistence.transactionType", "JTA");
+
         emf.setJpaProperties(jpaProperties);
         emf.afterPropertiesSet();
         return emf.getObject();
@@ -64,6 +70,8 @@ public class MyProductDbEntityManagerFactoryConfig {
     }
   */
 
+/*
+    //pour ANCIENNE VERSION SANS JTA/XA/Atomikos:
 
     //not used but required by default with spring-jpa-starter
     @Bean(name="entityManagerFactory")
@@ -84,5 +92,5 @@ public class MyProductDbEntityManagerFactoryConfig {
         emf.afterPropertiesSet();
         return emf.getObject();
     }
-
+*/
 }

@@ -13,7 +13,7 @@ import tp.jpaSpringBatch.model.ProductWithDetails;
 NB: ce Reader est basé sur JPA/Hibernate.JPQL (JpaPagingItemReader)
      et non sur Spring Data JPA (RepositoryItemReader)
      -----
-     La varaiante RepositoryItemReader (avec SpringData Jpa) est dans le fichier
+     La variante RepositoryItemReader (avec SpringData Jpa) est dans le fichier
      MyDbProductWithDetailsRepositoryReaderConfig.java
  */
 

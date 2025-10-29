@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import tp.jpaSpringBatch.AbstractBasicActiveTestJob;
-import tp.jpaSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
-import tp.jpaSpringBatch.config.MyProductDbDataSourceConfig;
-import tp.jpaSpringBatch.config.MyProductDbEntityManagerFactoryConfig;
-import tp.jpaSpringBatch.config.ProductJpaRepositoryConfig;
+import tp.jpaSpringBatch.config.*;
 import tp.jpaSpringBatch.processor.IncreasePriceOfProductWithDetailsProcessor;
 import tp.jpaSpringBatch.reader.MyDbProductStatJpaReaderConfig;
 import tp.jpaSpringBatch.reader.MyDbProductWithDetailsJpaReaderConfig;
@@ -38,7 +35,7 @@ import tp.jpaSpringBatch.writer.MyDbProductWithDetailsRepositoryWriterConfig; //
 	IncreasePriceOfProductWithDetailsProcessor.class,
 	MyConsoleProductStatWriterConfig.class ,
         MyDbProductStatJpaReaderConfig.class,
-	MyCsvFileProductStatWriterConfig.class
+	MyCsvFileProductStatWriterConfig.class, AtomikosConfig.class,
 	})
 class IncreaseProductPriceInDbTestConfig{
 }
@@ -53,7 +50,7 @@ public class TestIncreaseProductPriceInDbJob extends AbstractBasicActiveTestJob 
 		return jobParametersBuilder
         .addDouble("increaseRatePct", 1.0)//used by IncreasePriceOfProductWithDetailsProcessor (1% d'augmentation)
 		.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor (categorie de produit à augmenter)
-		.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
+		//.addLong("slowProcessorDelay",200L) //200ms de pause pour simuler traitement long dans processeur
 		.addLong("minManyUpdated",2L);//used by MyUpdatedCountCheckingDecider
         
 	}

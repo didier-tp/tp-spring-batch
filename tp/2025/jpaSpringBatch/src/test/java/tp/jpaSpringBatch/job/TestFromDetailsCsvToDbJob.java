@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import tp.jpaSpringBatch.AbstractBasicActiveTestJob;
-import tp.jpaSpringBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
-import tp.jpaSpringBatch.config.MyProductDbDataSourceConfig;
-import tp.jpaSpringBatch.config.MyProductDbEntityManagerFactoryConfig;
-import tp.jpaSpringBatch.config.ProductJpaRepositoryConfig;
+import tp.jpaSpringBatch.config.*;
 import tp.jpaSpringBatch.reader.MyCsvFileProductWithDetailsReaderConfig;
 import tp.jpaSpringBatch.step.PrepareProductTableInDbStepConfig;
 import tp.jpaSpringBatch.tasklet.InitProductWithDetailsTasklet;
@@ -26,7 +23,7 @@ import tp.jpaSpringBatch.writer.MyDbProductWithDetailsRepositoryWriterConfig; //
 	MyProductDbDataSourceConfig.class, MyProductDbEntityManagerFactoryConfig.class, ProductJpaRepositoryConfig.class,
 	ProductsWithDetailsCsvToDbJobConfig.class , PrepareProductTableInDbStepConfig.class, InitProductWithDetailsTasklet.class,
 	/*MyConsoleProductWithDetailsWriterConfig.class ,*/
-	MyCsvFileProductWithDetailsReaderConfig.class,
+	MyCsvFileProductWithDetailsReaderConfig.class, AtomikosConfig.class,
         MyDbProductWithDetailsJpaWriterConfig.class,MyDbProductWithDetailsRepositoryWriterConfig.class
 	})
 class FromDetailsCsvToDbTestConfig{

@@ -27,7 +27,7 @@ import javax.sql.DataSource;
 @Import({AutomaticSpringBootBatchJobRepositoryConfig.class,
 	MyProductDbDataSourceConfig.class, MyProductDbEntityManagerFactoryConfig.class, ProductJpaRepositoryConfig.class,
 	DataSetGeneratorJobConfig.class , PrepareProductTableInDbStepConfig.class, InitProductWithDetailsTasklet.class,
-	MyCustomProductWithDetailsGeneratorReaderConfig.class,
+	MyCustomProductWithDetailsGeneratorReaderConfig.class,AtomikosConfig.class,
         MyDbProductWithDetailsJpaWriterConfig.class,MyDbProductWithDetailsRepositoryWriterConfig.class
 	})
 class DataSetGeneratorTestConfig{

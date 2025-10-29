@@ -10,6 +10,10 @@
 	<packaging>pom</packaging>
 	<modules>
 	   <module>../basesSpringBatch</module>
+	   <module>../jtaSpringBatch</module>
+	   <module>../jpaSpringBatch</module>
+	   <module>../restartableBatch</module>
+	   <module>../myBatchAdmin</module>
 	   <!-- <module>../autreProjetSpringBatch</module> -->
 	</modules>
 </project>
