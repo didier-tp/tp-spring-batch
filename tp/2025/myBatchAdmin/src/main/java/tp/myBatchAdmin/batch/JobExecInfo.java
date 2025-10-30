@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,12 @@ public class JobExecInfo {
             info.getJobParametersMap().put(key, /*value.toString()*/ value.getValue().toString() );
         });
         return info;
+    }
+
+    public static String myDateTimeString(long isoGmtTimeStamp){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss");
+        //NB: not HH:mm:ss because invalid file name part
+        return dateFormat.format(new java.util.Date(isoGmtTimeStamp));
     }
 
     public static void writeJobExecInfoToFile(JobExecInfo info, String filePath) {

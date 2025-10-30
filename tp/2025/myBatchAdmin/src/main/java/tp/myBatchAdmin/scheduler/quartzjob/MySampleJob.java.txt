@@ -1,4 +1,4 @@
-package tp.myBatchAdmin.basic;
+package tp.myBatchAdmin.scheduler.quartzjob;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

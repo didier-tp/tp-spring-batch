@@ -1,9 +1,6 @@
 package tp.myBatchAdmin.scheduler;
 
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
+import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tp.myBatchAdmin.basic.MySampleJob;
@@ -29,6 +26,7 @@ public class BasicSchedulerConfig {
                 .withDescription("Sample trigger")
                 //.withSchedule(simpleSchedule().repeatForever().withIntervalInHours(1))
                 .withSchedule(simpleSchedule().repeatForever().withIntervalInSeconds(5))
+                //.withSchedule(CronScheduleBuilder.cronSchedule("5 8 * * 6 ?"))
                 .build();
     }
 }

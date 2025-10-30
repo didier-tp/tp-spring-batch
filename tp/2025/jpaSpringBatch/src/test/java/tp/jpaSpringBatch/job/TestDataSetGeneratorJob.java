@@ -35,7 +35,7 @@ class DataSetGeneratorTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { DataSetGeneratorTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestDataSetGeneratorJob extends AbstractBasicActiveTestJob {
 
 

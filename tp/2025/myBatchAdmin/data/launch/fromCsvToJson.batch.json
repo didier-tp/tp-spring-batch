@@ -1,0 +1,13 @@
+{
+  "title" : "fromCsvToJson",
+  "description" : "read a csv file and write a json file , outputFilePath not yet interpret",
+  "jobName" : "fromCsvToJsonJob",
+  "appName" : "basesSpringBatch",
+  "appURI" : "file:///C:/tp/local-git-didier-tp-repositories/tp-spring-batch/tp/2025/basesSpringBatch/target/basesSpringBatch.jar",
+  "mainJobParameters" : {
+       "inputFilePath" :  "data/input/csv/products.csv",
+        "outputFilePath" :  "data/output/json/products.json",
+        "enableUpperCase" :  "true"
+  },
+  "scheduling" : null
+}

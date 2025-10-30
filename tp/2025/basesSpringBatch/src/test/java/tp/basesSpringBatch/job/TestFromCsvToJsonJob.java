@@ -28,7 +28,7 @@ class FromCsvToJsonTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromCsvToJsonTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestFromCsvToJsonJob extends AbstractBasicActiveTestJob {
 
 	@Override

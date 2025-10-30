@@ -27,7 +27,7 @@ class FromCsvToConsoleTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromCsvToConsoleTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestFromCsvToConsoleJob extends AbstractBasicActiveTestJob {
 	
 	@Override

@@ -32,7 +32,7 @@ class FromProductStatDbToCsvTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromProductStatDbToCsvTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestFromProductStatDbToCsvJob extends AbstractBasicActiveTestJob {
 
 	@Override

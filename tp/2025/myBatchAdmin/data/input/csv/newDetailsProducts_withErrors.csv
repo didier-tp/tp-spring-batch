@@ -1,0 +1,6 @@
+id;main_category;sub_category;label;price;time_stamp;features
+null;aliment;legumes;tomates;2.2;2024-05-23T11:31:00;rouge,1100,1l,tomates anciennes
+LINE_WITH_ERROR
+null;vetement;null;t-shirt;7.7;2024-05-23T11:31:00;vert,280,m,en coton
+LINE_WITH_ERROR
+null;aliment;fruits;oranges;2.2;2024-05-23T11:31:00;orange,1100,1l,oranges espagnoles

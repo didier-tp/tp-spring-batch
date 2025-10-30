@@ -41,7 +41,7 @@ class IncreaseProductPriceInDbWithPartitionTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { IncreaseProductPriceInDbWithPartitionTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestIncreaseProductPriceInDbWithPartitionJob extends AbstractBasicActiveTestJob {	
 	
 	@Override

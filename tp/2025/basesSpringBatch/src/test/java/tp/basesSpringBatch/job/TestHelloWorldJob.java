@@ -26,6 +26,6 @@ class HelloWorldJobTestConfig{
 @SpringBatchTest
 @SpringBootTest(classes = { HelloWorldJobTestConfig.class } )
 //@SpringBootTest
-//@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestHelloWorldJob extends AbstractBasicActiveTestJob{
 }

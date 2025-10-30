@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import org.springframework.test.context.ActiveProfiles;
 import tp.restartableBatch.AbstractBasicActiveTestJob;
 import tp.restartableBatch.config.AutomaticSpringBootBatchJobRepositoryConfig;
 import tp.restartableBatch.reader.MyCsvFileProductWithDetailsReaderConfig;
@@ -26,6 +27,9 @@ class FromDetailsCsvToDbWithRestartableTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromDetailsCsvToDbWithRestartableTestConfig.class } )
+@ActiveProfiles("h2") //IMPORTANT :  if jobRepositoryTestUtils.removeJobExecutions() in @AfterEach
+                       //all jobExecutions , jobInstances will be cleared !!!
+                       // not same jobRepository for UnitTest (ex: h2) than real batch application (ex: mariadb)
 public class TestFromDetailsCsvToDbWithRestartableJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {

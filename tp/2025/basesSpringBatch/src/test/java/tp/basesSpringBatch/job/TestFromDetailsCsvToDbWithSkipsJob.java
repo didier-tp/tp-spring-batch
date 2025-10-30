@@ -30,7 +30,7 @@ class FromDetailsCsvToDbWithSkipsTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromDetailsCsvToDbWithSkipsTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestFromDetailsCsvToDbWithSkipsJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {

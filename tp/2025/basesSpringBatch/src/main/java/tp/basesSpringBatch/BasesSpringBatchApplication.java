@@ -13,6 +13,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import tp.basesSpringBatch.admin.JobExecInfo;
 
+import java.util.Arrays;
+
 /*
 NB: pour ne pas trop cacher le run automatique de Spring Boot,
  on implémente ici l'interface CommandLineRunner et on surcharge la méthode run()
@@ -32,19 +34,30 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
 
     @Override //from CommandLineRunner interface (called automatically)
     public void run(String... args) throws Exception {
-        //var defaultJobName = "myHelloWorldJob"; //OK
+        log.debug("BasesSpringBatchApplication launched with args =" + Arrays.toString(args));
+        var defaultJobName = "myHelloWorldJob"; //OK
         //var defaultJobName = "fromCsvToConsoleJob"; //OK with defaultInputFilePath="data/input/csv/products.csv";
         //var defaultJobName = "fromDetailsCsvToDbJob"; //OK with defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
         //var defaultJobName = "fromCsvToJsonJob"; //ok with defaultInputFilePath="data/input/csv/products.csv";
         //var defaultJobName = "fromCsvToXmlJob";//ok with defaultInputFilePath="data/input/csv/products.csv"; and defaultOutputFilePath="data/output/xml/products.xml";
-        var defaultJobName = "generateDbDataSetJob"; //OK with no input file , no output file but need product_with_details table  in productdb
+        //var defaultJobName = "generateDbDataSetJob"; //OK with no input file , no output file but need product_with_details table  in productdb
         //var defaultJobName = "fromDbExtractStatToCsvJob"; //OK with no input file , output file ="data/output/csv/productStats.csv" and need product table in productdb
 
         String jobName = null;
-        if(args.length>0)
-            jobName=args[0];
-        else
-            jobName=System.getProperty("jobName", defaultJobName);
+        if(args.length>0) {
+            jobName = args[0];
+            log.debug("BasesSpringBatchApplication jobName from args[0] =" + jobName);
+        }
+        else {
+            //jobName = System.getProperty("jobName", defaultJobName);
+            jobName = System.getProperty("jobName");
+            if(jobName!=null){
+                log.debug("BasesSpringBatchApplication jobName from -DjobName=" + jobName);
+            }else{
+                jobName = defaultJobName;
+                log.debug("BasesSpringBatchApplication jobName from defaultJobName=" + jobName);
+            }
+        }
 
         String jobExecNotifDirectory = System.getProperty("jobExecNotifDirectory", "data/output/jobExecNotifications");
 
@@ -62,18 +75,19 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
 
         long defaultTimeStampOfJobInstance = System.currentTimeMillis();
         Long timeStampOfJobInstance = Long.parseLong(System.getProperty("timeStampOfJobInstance", Long.toString(defaultTimeStampOfJobInstance)));
+        String myTimeStampString = JobExecInfo.myDateTimeString(timeStampOfJobInstance);
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("timeStampOfJobInstance", timeStampOfJobInstance)//Necessary for running several instances of a same job (each jobInstance must have a parameter that changes)
                 .addString("inputFilePath", inputFilePath)//used by some Reader/Writer
                 .addString("outputFilePath", outputFilePath)//used by some Reader/Writer
-                .addString("enableUpperCase", "true")//used by SimpleUppercaseProductProcessor
+                .addString("enableUpperCase", System.getProperty("enableUpperCase","true"))//used by SimpleUppercaseProductProcessor
 				.addString("productCategoryToIncrease", "aliment")//used by IncreasePriceOfProductWithDetailsProcessor
                 .addDouble("increaseRatePct", 5.0)//used by IncreasePriceOfProductWithDetailsProcessor
                 .addLong("dataSetSize", 5000L)//used by DataSetGeneratorJob
                 .toJobParameters();
         var jobExecution = jobLauncher.run(job, jobParameters);
-        String startingJobNotifPath = jobExecNotifDirectory +"/start_"+ jobName + "_"+ timeStampOfJobInstance + ".json";
+        String startingJobNotifPath = jobExecNotifDirectory +"/start_"+ jobName + "_"+ myTimeStampString + ".json";
         JobExecInfo.writeJobExecInfoToFile(JobExecInfo.fromJobExecution(jobExecution), startingJobNotifPath);
         //var batchStatus = jobExecution.getStatus();
 
@@ -82,7 +96,7 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
             Thread.sleep(5000L);
         }
         System.out.println("Job " + jobName + " is finished ...");
-        String endingJobNotifPath = jobExecNotifDirectory +"/end_"+ jobName + "_"+ timeStampOfJobInstance + ".json";
+        String endingJobNotifPath = jobExecNotifDirectory +"/end_"+ jobName + "_"+ myTimeStampString + ".json";
         JobExecInfo.writeJobExecInfoToFile(JobExecInfo.fromJobExecution(jobExecution), endingJobNotifPath);
     }
 }

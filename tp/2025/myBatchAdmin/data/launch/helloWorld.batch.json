@@ -1,0 +1,12 @@
+{
+  "title" : "helloWorld",
+  "description" : "basic helloWorld job",
+  "jobName" : "myHelloWorldJob",
+  "appName" : "basesSpringBatch",
+  "appURI" : "file:///C:/tp/local-git-didier-tp-repositories/tp-spring-batch/tp/2025/basesSpringBatch/target/basesSpringBatch.jar",
+  "mainJobParameters" : { },
+  "scheduling" : {
+    "minutes": "*",
+    "hours" : "*"
+  }
+}

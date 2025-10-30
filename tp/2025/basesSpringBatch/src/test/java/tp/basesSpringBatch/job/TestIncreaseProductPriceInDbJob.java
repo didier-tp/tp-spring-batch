@@ -40,7 +40,7 @@ class IncreaseProductPriceInDbTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { IncreaseProductPriceInDbTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestIncreaseProductPriceInDbJob extends AbstractBasicActiveTestJob {	
 	
 	@Override

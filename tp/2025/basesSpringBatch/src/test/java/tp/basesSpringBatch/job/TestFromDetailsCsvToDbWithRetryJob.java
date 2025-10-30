@@ -30,7 +30,7 @@ class FromDetailsCsvToDbWithRetryTestConfig{
 
 @SpringBatchTest
 @SpringBootTest(classes = { FromDetailsCsvToDbWithRetryTestConfig.class } )
-@ActiveProfiles(profiles = {})
+@ActiveProfiles(profiles = {"h2"})
 public class TestFromDetailsCsvToDbWithRetryJob extends AbstractBasicActiveTestJob {
 	@Override
 	public JobParametersBuilder initJobParametersWithBuilder(JobParametersBuilder jobParametersBuilder) {

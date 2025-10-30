@@ -1,0 +1,13 @@
+{
+  "title" : "fromCsvToXml",
+  "description" : "read a csv file and write a xml file , outputFilePath is interpret and necessary",
+  "jobName" : "fromCsvToXmlJob",
+  "appName" : "basesSpringBatch",
+  "appURI" : "file:///C:/tp/local-git-didier-tp-repositories/tp-spring-batch/tp/2025/basesSpringBatch/target/basesSpringBatch.jar",
+  "mainJobParameters" : {
+       "inputFilePath" :  "data/input/csv/products.csv",
+        "outputFilePath" :  "data/output/xml/products.xml",
+        "enableUpperCase" :  "false"
+  },
+  "scheduling" : null
+}
