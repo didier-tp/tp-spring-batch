@@ -8,19 +8,24 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tp.myBatchAdmin.service.BatchEssentialService;
+import tp.myBatchAdmin.service.MonitoringBatchService;
+
+import java.util.List;
 
 @Component
 @Slf4j
-public class LaunchEssentialBatchJob implements Job {
+public class RefreshMonitoringJob implements Job {
 
     @Autowired
-    private BatchEssentialService batchEssentialService;
+    private MonitoringBatchService monitoringBatchService;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-        String batchTitle = jobDataMap.get("batchTitle").toString();
-        log.info("LaunchEssentialBatchJob.execute calling batchEssentialService.launchBatchEssential() with batchTitle=" + batchTitle);
-        batchEssentialService.launchBatchEssential(batchTitle);
+        List<String> batchTitleList = ( List<String>)jobDataMap.get("batchTitleList");
+        log.info("RefreshMonitoringJob.execute calling monitoringBatchService.refreshMonitoring() with batchTitleList=" + batchTitleList);
+        for(String batchTitle : batchTitleList) {
+            monitoringBatchService.refreshMonitoring(batchTitle);
+        }
     }
 }

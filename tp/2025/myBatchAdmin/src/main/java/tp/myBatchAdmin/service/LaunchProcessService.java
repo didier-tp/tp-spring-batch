@@ -16,13 +16,13 @@ public class LaunchProcessService {
 
     public long launchProcess(List<String> commandLineArgsList) {
         long pid = -1;
-        log.debug("LaunchProcessService.launchProcess "+ commandLineArgsList);
+        log.trace("LaunchProcessService.launchProcess "+ commandLineArgsList);
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(commandLineArgsList);
         try {
             Process process = builder.start();
             pid = process.pid();
-            log.info("pid of process=" +pid);
+            log.debug("pid of process=" +pid);
         } catch (IOException e) {
             e.printStackTrace();
             //throw new RuntimeException(e);
@@ -32,13 +32,13 @@ public class LaunchProcessService {
 
     public long launchProcess(String commandLineArgs[]) {
         long pid = -1;
-        log.debug("LaunchProcessService.launchProcess "+ Arrays.toString(commandLineArgs));
+        log.trace("LaunchProcessService.launchProcess "+ Arrays.toString(commandLineArgs));
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(commandLineArgs);
         try {
             Process process = builder.start();
             pid = process.pid();
-            log.info("pid of process=" +pid);
+            log.debug("pid of process=" +pid);
         } catch (IOException e) {
             e.printStackTrace();
             //throw new RuntimeException(e);

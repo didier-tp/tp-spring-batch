@@ -1,5 +1,6 @@
 package tp.myBatchAdmin.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
@@ -9,8 +10,11 @@ import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tp.myBatchAdmin.batch.BatchEssential;
 import tp.myBatchAdmin.batch.BatchMonitoring;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +48,10 @@ public class MonitoringBatchService {
 
     public JobExecution getLastJobExecution(String jobName){
         JobInstance lastJobInstance = jobExplorer.getLastJobInstance(jobName);
-        System.out.println("lastJobInstance=" + lastJobInstance);
+        log.debug("lastJobInstance=" + lastJobInstance);
         JobExecution lastJobExecution=jobExplorer.getLastJobExecution(lastJobInstance);
-        System.out.println("lastJobExecution=" + lastJobExecution);
-        System.out.println("executionContext of lastJobExecution=" +
+        log.debug("lastJobExecution=" + lastJobExecution);
+        log.debug("executionContext of lastJobExecution=" +
                 lastJobExecution.getExecutionContext());
         /*
         var stepExecutions = lastJobExecution.getStepExecutions();
@@ -70,9 +74,34 @@ public class MonitoringBatchService {
             //e.printStackTrace();
             System.err.println(e.getMessage());
         }
-        System.out.println("jobInstances=" + jobInstances);
+        log.debug("jobInstances=" + jobInstances);
         return jobInstances;
     }
 
+    public void refreshMonitoring(String batchTitle){
+        BatchEssential batchEssential = BatchEssentialService.batchEssentialFromJsonFile(batchTitle);
+        String jobName= batchEssential.getJobName();
+        JobExecution lastJobExecution = getLastJobExecution(jobName);
+        BatchMonitoring batchMonitoring = new BatchMonitoring();
+        batchMonitoring.setTitle(batchTitle);
+        batchMonitoring.setJobName(jobName);
+        batchMonitoring.setLastJobExecutionId(lastJobExecution.getId().toString());
+        batchMonitoring.setLastJobInstanceId(lastJobExecution.getJobInstance().getId().toString());
+        batchMonitoring.setLastStatus(lastJobExecution.getStatus().toString());
+        batchMonitoring.setLastEndTimeStamp(lastJobExecution.getEndTime().toString());
+        batchMonitoring.setLastStartTimeStamp(lastJobExecution.getStartTime().toString());
+        refreshBatchMonitoringJsonFile(batchMonitoring);
+    }
+
+    public void refreshBatchMonitoringJsonFile(BatchMonitoring batchMonitoring){
+        try {
+            ObjectMapper jsonObjectMapper = new ObjectMapper();
+            String monitoringPath = "data/monitoring/" + batchMonitoring.getTitle() + ".monitoring.json";
+            File f = new File(monitoringPath);
+            jsonObjectMapper.writeValue(f,batchMonitoring);
+        }  catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

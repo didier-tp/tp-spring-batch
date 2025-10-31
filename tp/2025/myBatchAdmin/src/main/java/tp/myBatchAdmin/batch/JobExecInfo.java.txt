@@ -12,6 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+Cette classe peut éventuellement être utilisée par certaines applications "springBacth"
+de manière à générer des fichiers start_jobName_timeStamp.json et start_jobName_timeStamp.json
+au sein du répertoire data/output/jobExecNotifications
+ */
+
 @Getter @Setter @ToString @NoArgsConstructor
 public class JobExecInfo {
     private String jobName;

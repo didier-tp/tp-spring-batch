@@ -29,4 +29,4 @@ Le scheduler basé sur Quartz peut régulièrement:
    - lancer des batchs (nouveau process)
    - récupérer le statut des batchs (process en cours, terminés, échoués, etc.)
 ----
-Avec petite api-REST + frontEnd  pour piloter tout ça.
+Avec ultérieurement petite api-REST + frontEnd  pour piloter tout ça.
