@@ -7,6 +7,9 @@
   "mainJobParameters" : { },
   "scheduling" : {
     "minutes": "*",
-    "hours" : "*"
+    "hours" : "8-18",
+    "daysOfMonth" : "?",
+    "months" : "*",
+    "daysOfWeek" : "MON-FRI"
   }
 }

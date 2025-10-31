@@ -9,5 +9,11 @@
         "outputFilePath" :  "data/output/xml/products.xml",
         "enableUpperCase" :  "false"
   },
-  "scheduling" : null
+  "scheduling" : {
+  "minutes": "*",
+  "hours" : "8-18",
+  "daysOfMonth" : "?",
+  "months" : "*",
+  "daysOfWeek" : "SUN-SAT"
+  }
 }

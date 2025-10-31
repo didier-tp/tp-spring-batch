@@ -17,6 +17,8 @@ public class LaunchEssentialBatchJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-        System.out.println("LaunchEssentialBatchJob.execute with batchTitle=" + jobDataMap.get("batchTitle"));
+        String batchTitle = jobDataMap.get("batchTitle").toString();
+        System.out.println("LaunchEssentialBatchJob.execute calling batchEssentialService.launchBatchEssential() with batchTitle=" + batchTitle);
+        batchEssentialService.launchBatchEssential(batchTitle);
     }
 }

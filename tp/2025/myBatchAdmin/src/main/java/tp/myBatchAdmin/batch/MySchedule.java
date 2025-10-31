@@ -12,7 +12,10 @@ public class MySchedule {
     private String hours="0"; //0-23 or * or ...
     private String daysOfMonth="?";//1-31 or ? or * or ...
     private String months="*"; //1-12
-    private String daysOfWeek="*"; //0-7 (1=Monday , 5=Friday , 6=Saturday , 0or 7 = Sunday)
+    private String daysOfWeek="1-7"; //linux-cron: 0-7 (1=Monday , 5=Friday , 6=Saturday , 0or 7 = Sunday)
+
+                                   //quartz-cron : 1-7 (1 : sunday , 7 : saturday)
+                                   //prefered syntax: MON-FRI
     //private String year="*";
 
     public String asCronString(){

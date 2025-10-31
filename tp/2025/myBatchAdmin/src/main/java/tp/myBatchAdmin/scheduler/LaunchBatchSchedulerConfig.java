@@ -4,6 +4,7 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import tp.myBatchAdmin.batch.BatchEssential;
 import tp.myBatchAdmin.batch.MySchedule;
 import tp.myBatchAdmin.scheduler.quartzjob.LaunchEssentialBatchJob;
@@ -16,9 +17,9 @@ import java.io.File;
 public class LaunchBatchSchedulerConfig {
 
     @Bean
-    public Scheduler myBatchStartedScheduler() throws SchedulerException {
+    public Scheduler myBatchStartedScheduler(SchedulerFactoryBean schedulerFactory) throws SchedulerException {
 
-        Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+        Scheduler scheduler = schedulerFactory.getScheduler();
 
         File launchDirFile = new File("data/launch");
         File[] files = launchDirFile.listFiles();
