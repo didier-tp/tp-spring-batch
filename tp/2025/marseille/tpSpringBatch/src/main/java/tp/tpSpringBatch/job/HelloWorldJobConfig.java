@@ -12,20 +12,21 @@ import tp.tpSpringBatch.tasklet.bean.PrintHelloWorldMessageTaskletBean;
 
 @Configuration
 public class HelloWorldJobConfig extends MyAbstractJobConfig{
+    public static final String JOB_NAME="myHelloWorldJob";
+    public static final String MAIN_STEP_NAME="simplePrintMessageStep";
+
     public static final Logger logger = LoggerFactory.getLogger(HelloWorldJobConfig.class);
 
-    @Bean(name="myHelloWorldJob")
+    @Bean(name=JOB_NAME)
     public Job myHelloWorldJob(
-            @Qualifier("simplePrintMessageStep") Step printMessageStepWithTasklet
+            @Qualifier(MAIN_STEP_NAME) Step printMessageStepWithTasklet
     ) {
-        var name = "myHelloWorldJob";
-        return this.buildMySingleStepJob(name, printMessageStepWithTasklet);
+        return this.buildMySingleStepJob(JOB_NAME, printMessageStepWithTasklet);
     }
 
-    @Bean
+    @Bean(name=MAIN_STEP_NAME)
     public Step simplePrintMessageStep(PrintHelloWorldMessageTaskletBean printHelloWorldMessageTaskletBean){
-        var name = "simplePrintMessageStep";
-        var stepBuilder = new StepBuilder(name, jobRepository);
+        var stepBuilder = new StepBuilder(MAIN_STEP_NAME, jobRepository);
         return stepBuilder
                 .tasklet(printHelloWorldMessageTaskletBean, this.batchTxManager)
                 .build();
