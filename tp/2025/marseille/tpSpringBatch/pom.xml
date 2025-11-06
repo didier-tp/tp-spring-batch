@@ -90,6 +90,9 @@
 	</dependencies>
 
 	<build>
+        <!-- nom du jar construit = tpSpringBatch.jar -->
+        <finalName>${project.artifactId}</finalName>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

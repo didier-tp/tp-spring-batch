@@ -29,10 +29,15 @@ public class TpSpringBatchApplication implements CommandLineRunner {
 	}
     @Override //from CommandLineRunner interface (called automatically)
     public void run(String... args) throws Exception {
-        //String jobName = "myHelloWorldJob";
-        //String jobName = "fromCsvToConsoleJob";
-        String jobName = "fromCsvToJsonJob";
-        //String jobName = "fromCsvToXmlJob";
+        //String defaultJobName = "myHelloWorldJob";
+        //String defaultJobName = "fromCsvToConsoleJob";
+        String defaultJobName = "fromCsvToJsonJob";
+        //String defaultJobName = "fromCsvToXmlJob";
+
+        String jobName = null;
+        if(args.length>0) jobName=args[0];
+        else jobName=System.getProperty("jobName", defaultJobName);
+
         Job job = (Job) applicationContext.getBean(jobName);
 
         String defaultInputFilePath="data/input/csv/products.csv";
