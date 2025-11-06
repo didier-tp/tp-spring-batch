@@ -32,9 +32,22 @@ public class TpSpringBatchApplication implements CommandLineRunner {
         //String jobName = "myHelloWorldJob";
         //String jobName = "fromCsvToConsoleJob";
         String jobName = "fromCsvToJsonJob";
+        //String jobName = "fromCsvToXmlJob";
         Job job = (Job) applicationContext.getBean(jobName);
+
+        String defaultInputFilePath="data/input/csv/products.csv";
+        //String defaultInputFilePath="data/input/csv/newDetailsProducts_withOrWithoutErrors.csv";
+        String inputFilePath=System.getProperty("inputFilePath", defaultInputFilePath);
+
+        String defaultOutputFilePath="data/output/json/products_2.json";
+        //String defaultOutputFilePath="data/output/xml/products_2.xml";
+        String outputFilePath=System.getProperty("outputFilePath", defaultOutputFilePath);
+
         JobParameters jobParameters = new JobParametersBuilder()
                 /*Necessary for running several instances of a same job (each jobInstance must have a parameter that changes)*/
+                .addString("inputFilePath", inputFilePath)//used by some Reader/Writer
+                .addString("outputFilePath", outputFilePath)//used by some Reader/Writer
+                .addString("enableUpperCase", System.getProperty("enableUpperCase","true"))//used by SimpleUppercaseProductProcessor
                 .addLong("timeStampOfJobInstance", System.currentTimeMillis()).toJobParameters();
 
         var jobExecution = jobLauncher.run(job, jobParameters);
