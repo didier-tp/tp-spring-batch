@@ -30,7 +30,8 @@ public class TpSpringBatchApplication implements CommandLineRunner {
     @Override //from CommandLineRunner interface (called automatically)
     public void run(String... args) throws Exception {
         //String jobName = "myHelloWorldJob";
-        String jobName = "fromCsvToConsoleJob";
+        //String jobName = "fromCsvToConsoleJob";
+        String jobName = "fromCsvToJsonJob";
         Job job = (Job) applicationContext.getBean(jobName);
         JobParameters jobParameters = new JobParametersBuilder()
                 /*Necessary for running several instances of a same job (each jobInstance must have a parameter that changes)*/
