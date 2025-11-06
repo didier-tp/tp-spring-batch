@@ -5,6 +5,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,10 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class TpSpringBatchApplication implements CommandLineRunner {
     private final JobLauncher jobLauncher;
+
+    @Value("${pp:default_value}") //dans classe de @Configuration
+    //pour récupérer la valeur de pp=pepe dans application.properties
+    private String pp;
 
     private final ApplicationContext applicationContext;
 
@@ -33,6 +38,8 @@ public class TpSpringBatchApplication implements CommandLineRunner {
         //String defaultJobName = "fromCsvToConsoleJob";
         String defaultJobName = "fromCsvToJsonJob";
         //String defaultJobName = "fromCsvToXmlJob";
+
+        System.out.println("pp="+this.pp);
 
         String jobName = null;
         if(args.length>0) jobName=args[0];
