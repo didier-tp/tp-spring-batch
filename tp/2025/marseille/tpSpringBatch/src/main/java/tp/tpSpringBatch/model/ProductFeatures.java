@@ -1,6 +1,9 @@
 package tp.tpSpringBatch.model;
 
+import jakarta.persistence.Embeddable;
+
 //@XmlRootElement(name = "features")
+@Embeddable
 public class ProductFeatures {
 	private String color;
 	private Double weight;

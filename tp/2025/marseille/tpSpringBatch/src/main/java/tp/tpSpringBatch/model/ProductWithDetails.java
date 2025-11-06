@@ -1,9 +1,21 @@
 package tp.tpSpringBatch.model;
 
 
+import jakarta.persistence.*;
+
 //@XmlRootElement(name = "product_with_details") //just for read/generate XML file with jaxb2 marshaller
+@Entity
+@Table(name="product_with_details")
 public class ProductWithDetails extends BasicProduct {
 	private String sub_category;
+
+    @Embedded()
+    @AttributeOverrides(value = {
+            @AttributeOverride(name = "color", column = @Column(name = "f_color")),
+            @AttributeOverride(name = "weight", column = @Column(name = "f_weight")),
+            @AttributeOverride(name = "size", column = @Column(name = "f_size")),
+            @AttributeOverride(name = "description", column = @Column(name = "f_description"))
+    })
 	private ProductFeatures features;
 
 	public ProductWithDetails() {

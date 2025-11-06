@@ -2,9 +2,19 @@ package tp.tpSpringBatch.model;
 
 //import jakarta.xml.bind.annotation.XmlRootElement;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+
 //@XmlRootElement(name = "product")
+@MappedSuperclass
 public class BasicProduct {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private String main_category;
 	private String label;
 	private Double price;
