@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,12 +30,13 @@ public class FromCsvToConsoleProductJobConfig extends MyAbstractJobConfig{
 
     @Bean(name=MAIN_STEP_NAME)
     public Step fromCsvToConsoleStep(@Qualifier("csv")ItemReader<Product> productItemReader,
-                                     @Qualifier("console") ItemWriter<Product> productItemWriter){
+                                     @Qualifier("console") ItemWriter<Product> productItemWriter,
+                                     ItemProcessor<Product,Product> productProcessor){
         var stepBuilder = new StepBuilder(MAIN_STEP_NAME, jobRepository);
         return stepBuilder
                 .<Product, Product>chunk(5, batchTxManager)
                 .reader(productItemReader)
-                //.processor(...Processor)
+                .processor(productProcessor)
                 .writer(productItemWriter)
                 .build();
     }
