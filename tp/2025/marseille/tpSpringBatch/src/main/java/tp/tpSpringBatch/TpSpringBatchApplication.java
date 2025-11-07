@@ -38,7 +38,8 @@ public class TpSpringBatchApplication implements CommandLineRunner {
         //String defaultJobName = "fromCsvToConsoleJob";
         //String defaultJobName = "fromCsvToJsonJob";
         //String defaultJobName = "fromCsvToXmlJob";
-        String defaultJobName =  "fromDBToConsoleJob";
+        //String defaultJobName =  "fromDBToConsoleJob";
+        String defaultJobName =  "fromDBToConsoleJobWithPartition";
 
         System.out.println("pp="+this.pp);
 
