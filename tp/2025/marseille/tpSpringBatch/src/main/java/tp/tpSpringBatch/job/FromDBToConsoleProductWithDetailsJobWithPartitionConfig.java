@@ -48,7 +48,7 @@ public class FromDBToConsoleProductWithDetailsJobWithPartitionConfig extends MyA
     }
 
     @Bean(name="stepDbToConsoleWorker")
-    public Step stepDbToConsoleWorker(@Qualifier("db-repository")ItemReader<ProductWithDetails> productItemReader,
+    public Step stepDbToConsoleWorker(@Qualifier("db-repository-with-partition")ItemReader<ProductWithDetails> productItemReader,
                                       @Qualifier("console") ItemWriter<ProductWithDetails> productItemWriter) {
         var name = "stepDbToConsoleWorker";
         var builder = new StepBuilder(name, jobRepository);

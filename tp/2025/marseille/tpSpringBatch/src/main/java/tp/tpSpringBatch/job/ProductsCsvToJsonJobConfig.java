@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tp.tpSpringBatch.model.Product;
 import tp.tpSpringBatch.processor.SimpleUppercaseProductProcessor;
+import tp.tpSpringBatch.tasklet.PrintMessageTasklet;
 
 @Configuration
 @Slf4j
@@ -21,11 +22,24 @@ public class ProductsCsvToJsonJobConfig extends MyAbstractJobConfig{
     public static final String MAIN_STEP_NAME = "stepCsvToJson";
 
   @Bean(name=JOB_NAME)
-  public Job fromCsvToJsonJob(@Qualifier(MAIN_STEP_NAME) Step step1) {
+  public Job fromCsvToJsonJob(@Qualifier(MAIN_STEP_NAME) Step step1,
+                              @Qualifier("messageStep") Step messageStep) {
     var jobBuilder = new JobBuilder(JOB_NAME, jobRepository);
-    return jobBuilder.start(step1)
+    return jobBuilder
+            .start(step1)
+            .next(messageStep)
     		//.listener(new JobCompletionNotificationListener())
     		.build();
+  }
+
+  @Bean Step messageStep(){
+      String stepName="messageStep";
+      var stepBuilder = new StepBuilder(stepName, jobRepository);
+      return stepBuilder.tasklet(
+              new PrintMessageTasklet(">>>> etape1 bien executee"),
+              batchTxManager
+      ).build();
+
   }
 
   @Bean(name=MAIN_STEP_NAME)
