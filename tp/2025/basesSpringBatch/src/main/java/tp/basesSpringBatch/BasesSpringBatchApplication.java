@@ -35,11 +35,11 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
     @Override //from CommandLineRunner interface (called automatically)
     public void run(String... args) throws Exception {
         log.debug("BasesSpringBatchApplication launched with args =" + Arrays.toString(args));
-        var defaultJobName = "myHelloWorldJob"; //OK
+        //var defaultJobName = "myHelloWorldJob"; //OK
         //var defaultJobName = "fromCsvToConsoleJob"; //OK with defaultInputFilePath="data/input/csv/products.csv";
         //var defaultJobName = "fromDetailsCsvToDbJob"; //OK with defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
         //var defaultJobName = "fromCsvToJsonJob"; //ok with defaultInputFilePath="data/input/csv/products.csv";
-        //var defaultJobName = "fromCsvToXmlJob";//ok with defaultInputFilePath="data/input/csv/products.csv"; and defaultOutputFilePath="data/output/xml/products.xml";
+        var defaultJobName = "fromCsvToXmlJob";//ok with defaultInputFilePath="data/input/csv/products.csv"; and defaultOutputFilePath="data/output/xml/products.xml";
         //var defaultJobName = "generateDbDataSetJob"; //OK with no input file , no output file but need product_with_details table  in productdb
         //var defaultJobName = "fromDbExtractStatToCsvJob"; //OK with no input file , output file ="data/output/csv/productStats.csv" and need product table in productdb
 
@@ -61,8 +61,8 @@ public class BasesSpringBatchApplication  implements CommandLineRunner {
 
         String jobExecNotifDirectory = System.getProperty("jobExecNotifDirectory", "data/output/jobExecNotifications");
 
-        //String defaultInputFilePath="data/input/csv/products.csv";
-        String defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
+        String defaultInputFilePath="data/input/csv/products.csv";
+        //String defaultInputFilePath="data/input/csv/newDetailsProducts.csv";
         //String defaultInputFilePath="data/input/csv/newDetailsProducts_withOrWithoutErrors.csv";
         String inputFilePath=System.getProperty("inputFilePath", defaultInputFilePath);
 
